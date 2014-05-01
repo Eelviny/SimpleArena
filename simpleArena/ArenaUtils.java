@@ -5,6 +5,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -64,7 +65,7 @@ public class ArenaUtils {
 		ee.setArmorContents(p.getInventory().getArmorContents());
 		ee.setItemInHand(p.getItemInHand());
 		
-		loc.getWorld().playEffect(loc, Effect.EXTINGUISH, 2);
+		loc.getWorld().playSound(loc, Sound.HURT_FLESH, 2F, 1F);
 		loc.getWorld().playEffect(loc, Effect.SMOKE, 10, 20);
 		Bukkit.getScheduler().scheduleSyncDelayedTask(SimpleArena.getInstance(), new Runnable(){
 		    public void run() {

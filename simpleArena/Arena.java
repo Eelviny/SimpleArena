@@ -183,7 +183,6 @@ public class Arena {
 			timeSinceRespawn = new LinkedHashMap<Player, Integer>();
 		}catch(Exception e){
 			e.printStackTrace();
-		}finally{
 			for(Player p: Bukkit.getOnlinePlayers()){
 				if(PlayerFiles.hasFile(p))
 					PlayerFiles.loadPlayerInvenWithoutThreading(p);
