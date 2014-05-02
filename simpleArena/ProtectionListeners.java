@@ -74,7 +74,7 @@ public class ProtectionListeners implements Listener {
 		Player p = e.getPlayer();
 		Arena a =SimpleArena.getArena(p);
 		if(a != null){
-			a.removePlayer(p, true);
+			a.removePlayer(p);
 		}
 	}
 	
@@ -83,7 +83,7 @@ public class ProtectionListeners implements Listener {
 		Player p = e.getPlayer();
 		Arena a =SimpleArena.getArena(p);
 		if(a != null){
-			a.removePlayer(p, true);
+			a.removePlayer(p);
 		}
 	}
 	
@@ -113,7 +113,7 @@ public class ProtectionListeners implements Listener {
 		Player p = e.getEntity();
 		if(SimpleArena.inArena(p)){
 			Arena a =SimpleArena.getArena(p);
-			a.removePlayer(p, true);
+			a.removePlayer(p);
 		}
 	}
 }

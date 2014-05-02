@@ -100,7 +100,7 @@ public class Messages {
 				messageData.put(message, formatString(config.getString(message)));
 			}
 		}catch (Exception e){
-			Bukkit.getServer().getLogger().log(Level.WARNING, "Â§cError loading messages.yml!");
+			Bukkit.getServer().getLogger().log(Level.WARNING, "§cError loading messages.yml!");
 		}
 		
 	}
@@ -119,6 +119,6 @@ public class Messages {
 	}
 	
 	public synchronized static String formatString(String string){
-		return string.replaceAll("&", "Â§");
+		return string.replaceAll("&", "§");
 	}
 }

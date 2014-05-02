@@ -160,7 +160,7 @@ public class Arena {
 		}
 	}
 	
-	public void endGame(boolean b){
+	public void endGame(boolean threading){
 		try{
 			Bukkit.getScheduler().cancelTask(gameLoopID);
 			HandlerList.unregisterAll(listener);
@@ -168,19 +168,26 @@ public class Arena {
 			declareWinner();
 			
 			for(Team team: teams.values()){
-				Iterator<Player> iterator = team.getPlayers().iterator();
-		    	while(iterator.hasNext()){
-		    		Player p = iterator.next();
-					this.removePlayer(p, b);
+				for(Player p: team.getPlayers()){
+					if(SimpleArena.usePvPChoice)
+						PVPChoiceAPI.setPVPEnabled(p, false);
+					if(PlayerFiles.hasFile(p))
+						if(threading)
+							PlayerFiles.loadPlayerInven(p);
+						else
+							PlayerFiles.loadPlayerInvenWithoutThreading(p);
 				}
 				team.resetScore();
+				team.clearTeam();
 			}
+			
 			sideBar.resetDisplay();
 			resetGameLoopTime();
 			
 			inProgress = false;
 			EasterEgg = false;
 			timeSinceRespawn = new LinkedHashMap<Player, Integer>();
+			
 		}catch(Exception e){
 			e.printStackTrace();
 			for(Player p: Bukkit.getOnlinePlayers()){
@@ -218,9 +225,9 @@ public class Arena {
 		}
 		 
 		for(Player p: Bukkit.getOnlinePlayers()){
-			p.sendMessage("§8§m <> ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ <>");
+			p.sendMessage("§8§m<> ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ <>");
 			p.sendMessage(message);
-			p.sendMessage("§8§m <> ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ <>");
+			p.sendMessage("§8§m<> ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ <>");
 		}
 	}
 	
@@ -315,7 +322,7 @@ public class Arena {
 				Iterator<Player> iterator = t.getPlayers().iterator();
 		    	while(iterator.hasNext()){
 		    		Player p = iterator.next();
-					this.removePlayer(p, true);
+					this.removePlayer(p);
 		    	}
 			}
 		}
@@ -354,15 +361,12 @@ public class Arena {
 			startCountDown();
 		}
 	}
-	public synchronized void removePlayer(Player p, boolean threading){
+	public synchronized void removePlayer(Player p){
 		if(this.inProgress()){
 			for(Team team: teams.values()){
 				if(team.contains(p)){
 					if(PlayerFiles.hasFile(p))
-						if(threading)
 							PlayerFiles.loadPlayerInven(p);
-						else
-							PlayerFiles.loadPlayerInvenWithoutThreading(p);
 					
 					if(SimpleArena.usePvPChoice)
 						PVPChoiceAPI.setPVPEnabled(p, false);

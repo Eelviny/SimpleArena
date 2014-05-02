@@ -51,7 +51,7 @@ public class PlayerDeathListener implements Listener{
 						ArenaUtils.respawnPlayer(a, damagee);
 					}else{
 						a.sendMessage(Messages.get("simplearena.leave.lose").replace("%player%", damagee.getName()));
-						a.removePlayer(damagee, true);
+						a.removePlayer(damagee);
 					}		
 				}
 			}
@@ -84,7 +84,7 @@ public class PlayerDeathListener implements Listener{
 							ArenaUtils.respawnPlayer(a, p);
 						}else{
 							a.sendMessage(Messages.get("simplearena.leave.lose").replace("%player%", p.getName()));
-							a.removePlayer(p, true);
+							a.removePlayer(p);
 						}
 						
 					}

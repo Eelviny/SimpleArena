@@ -118,7 +118,7 @@ public class SimpleArena extends JavaPlugin{
 								
 								if(pa != null && !pa.getName().equals(arena.getName())){
 									pa.sendMessage(Messages.get("simplearena.leave.normal").replace("%player%", p.getName()));
-									pa.removePlayer(p, true);
+									pa.removePlayer(p);
 								}
 								
 								if(arena.isMaxed()){
@@ -158,7 +158,7 @@ public class SimpleArena extends JavaPlugin{
 							Arena a = SimpleArena.getArena(p);
 							if(a != null){
 								a.sendMessage(Messages.get("simplearena.leave.normal").replace("%player%", p.getName()));
-								a.removePlayer(p, true);
+								a.removePlayer(p);
 							}else{
 								p.sendMessage(Messages.get("simplearena.command.notin"));
 							}
