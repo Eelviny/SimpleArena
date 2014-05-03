@@ -1,4 +1,4 @@
-package simpleArena;
+package co.justgame.simpleArena.Players;
 
 import java.io.File;
 import java.io.IOException;
@@ -15,6 +15,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+
+import co.justgame.simpleArena.Main.SimpleArena;
 
 
 public class PlayerFiles {

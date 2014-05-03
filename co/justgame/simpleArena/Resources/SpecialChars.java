@@ -1,4 +1,4 @@
-package simpleArena;
+package co.justgame.simpleArena.Resources;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;

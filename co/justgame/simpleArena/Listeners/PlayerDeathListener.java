@@ -1,4 +1,4 @@
-package simpleArena;
+package co.justgame.simpleArena.Listeners;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -12,6 +12,12 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
+
+import co.justgame.simpleArena.ArenaClasses.Arena;
+import co.justgame.simpleArena.ArenaClasses.ArenaUtils;
+import co.justgame.simpleArena.Listeners.DeathMessages.DeathMessages;
+import co.justgame.simpleArena.Main.SimpleArena;
+import co.justgame.simpleArena.Resources.Messages;
 
 
 public class PlayerDeathListener implements Listener{

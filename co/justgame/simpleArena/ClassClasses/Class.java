@@ -1,4 +1,4 @@
-package simpleArena;
+package co.justgame.simpleArena.ClassClasses;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -9,6 +9,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.potion.PotionEffect;
+
+import co.justgame.simpleArena.Main.SimpleArena;
+import co.justgame.simpleArena.Teams.Color.Color;
 
 import com.google.common.collect.Iterables;
 

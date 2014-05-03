@@ -1,4 +1,4 @@
-package simpleArena;
+package co.justgame.simpleArena.Main;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,6 +12,15 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scoreboard.ScoreboardManager;
+
+import co.justgame.simpleArena.ArenaClasses.Arena;
+import co.justgame.simpleArena.ArenaClasses.ArenaFiles;
+import co.justgame.simpleArena.ClassClasses.Class;
+import co.justgame.simpleArena.ClassClasses.ClassFiles;
+import co.justgame.simpleArena.Listeners.ProtectionListeners;
+import co.justgame.simpleArena.Listeners.SignListeners;
+import co.justgame.simpleArena.Resources.Messages;
+import co.justgame.simpleArena.Resources.SpecialChars;
 
 
 public class SimpleArena extends JavaPlugin{
@@ -38,6 +47,13 @@ public class SimpleArena extends JavaPlugin{
 		ArenaFiles.createSample();
 		arenas = ArenaFiles.loadArenas();
 		getLogger().info("Finished Loading Arenas!");
+		
+		
+		Messages.loadMessages();
+		
+		getServer().getPluginManager().registerEvents(new SignListeners(), this);
+		getServer().getPluginManager().registerEvents(new ProtectionListeners(), this);
+		
 		getLogger().info("Comparing Arena and Class names...");
 		
 		for(Arena a: arenas){
@@ -62,11 +78,6 @@ public class SimpleArena extends JavaPlugin{
 			usePvPChoice = true;
 		if(Bukkit.getPluginManager().getPlugin("VanishNoPacket") != null && Bukkit.getPluginManager().getPlugin("VanishNoPacket").isEnabled())
 			useVanish = true;
-		
-		
-		Messages.loadMessages();
-		getServer().getPluginManager().registerEvents(new SignListeners(), this);
-		getServer().getPluginManager().registerEvents(new ProtectionListeners(), this);
 		
 		try{
 			SpecialChars.ModifyAllowedCharacters();

@@ -1,4 +1,4 @@
-package simpleArena;
+package co.justgame.simpleArena.Listeners;
 
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -9,6 +9,11 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+
+import co.justgame.simpleArena.ArenaClasses.Arena;
+import co.justgame.simpleArena.ClassClasses.Class;
+import co.justgame.simpleArena.Main.SimpleArena;
+import co.justgame.simpleArena.Resources.Messages;
 
 
 public class SignListeners implements Listener {

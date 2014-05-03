@@ -1,4 +1,4 @@
-package simpleArena;
+package co.justgame.simpleArena.Display;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -12,6 +12,9 @@ import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Score;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.ScoreboardManager;
+
+import co.justgame.simpleArena.Teams.Team;
+import co.justgame.simpleArena.Teams.Color.Color;
 
 
 public class SideBarDisplay {

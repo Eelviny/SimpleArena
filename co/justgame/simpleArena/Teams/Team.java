@@ -1,4 +1,4 @@
-package simpleArena;
+package co.justgame.simpleArena.Teams;
 
 import java.util.HashMap;
 import java.util.Set;
@@ -7,7 +7,9 @@ import org.apache.commons.lang.WordUtils;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
-import simpleArena.Color.color;
+import co.justgame.simpleArena.ClassClasses.Class;
+import co.justgame.simpleArena.Main.SimpleArena;
+import co.justgame.simpleArena.Teams.Color.Color.color;
 
 
 public class Team {
@@ -35,7 +37,7 @@ public class Team {
 		return this.Color;
 	}
 	public String getName(){
-		return simpleArena.Color.getChatColor(this.getColor())+WordUtils.capitalize(this.getColor()
+		return co.justgame.simpleArena.Teams.Color.Color.getChatColor(this.getColor())+WordUtils.capitalize(this.getColor()
 				.name().toLowerCase().replace("_", " ")+" Team");
 	}
 	public Location getSpawn(){

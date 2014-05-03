@@ -1,10 +1,12 @@
-package simpleArena;
+package co.justgame.simpleArena.Listeners.DeathMessages;
 
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
+
+import co.justgame.simpleArena.Resources.Messages;
 
 
 public class DeathMessages {

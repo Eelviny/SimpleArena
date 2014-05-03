@@ -1,11 +1,11 @@
-package simpleArena;
+package co.justgame.simpleArena.Teams.Color;
 
 import org.bukkit.ChatColor;
 
 
 public class Color {
 	
-	enum color{
+	public enum color{
 		RED, LIGHT_BLUE, LIME_GREEN, YELLOW, BLACK, CYAN, ORANGE, LIGHT_GRAY, DARK_BLUE, DARK_GREEN,    
 		 LIGHT_PURPLE, PURPLE, WHITE, DARK_GRAY
 	}

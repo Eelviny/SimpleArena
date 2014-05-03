@@ -1,4 +1,4 @@
-package simpleArena;
+package co.justgame.simpleArena.Resources;
 
 import java.io.File;
 import java.io.IOException;
@@ -9,6 +9,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
+
+import co.justgame.simpleArena.Main.SimpleArena;
 
 
 public class Messages {

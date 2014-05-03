@@ -1,4 +1,4 @@
-package simpleArena;
+package co.justgame.simpleArena.Listeners;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -16,6 +16,11 @@ import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
+
+import co.justgame.simpleArena.ArenaClasses.Arena;
+import co.justgame.simpleArena.Main.SimpleArena;
+import co.justgame.simpleArena.Players.PlayerFiles;
+import co.justgame.simpleArena.Resources.Messages;
 
 
 public class ProtectionListeners implements Listener {

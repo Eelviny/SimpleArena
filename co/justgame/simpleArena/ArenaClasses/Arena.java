@@ -1,4 +1,4 @@
-package simpleArena;
+package co.justgame.simpleArena.ArenaClasses;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -11,9 +11,17 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 
-import com.spiny.pvpchoice.main.PVPChoiceAPI;
+import co.justgame.simpleArena.ClassClasses.Class;
+import co.justgame.simpleArena.Display.SideBarDisplay;
+import co.justgame.simpleArena.Listeners.PlayerDeathListener;
+import co.justgame.simpleArena.Main.SimpleArena;
+import co.justgame.simpleArena.Players.PlayerFiles;
+import co.justgame.simpleArena.Resources.Messages;
+import co.justgame.simpleArena.Teams.Team;
+import co.justgame.simpleArena.Teams.Color.Color;
+import co.justgame.simpleArena.Teams.Color.Color.color;
 
-import simpleArena.Color.color;
+import com.spiny.pvpchoice.main.PVPChoiceAPI;
 
 public class Arena {
 	
@@ -352,6 +360,16 @@ public class Arena {
 		    }
 		}, 1, 20L);
 	}
+	public void balanceTeams(){
+		for(Team t: teams.values()){
+			if(t.size() == 0){
+				Team donator = this.getBiggestTeam();
+				Player p = (Player) donator.getPlayers().toArray()[0];
+				donator.removePlayer(p);
+				t.addPlayer(p);
+			}
+		}
+	}
 	public synchronized void addPlayer(Player p){
 		Team team = getSmallestTeam();
 		team.addPlayer(p);
@@ -365,15 +383,13 @@ public class Arena {
 		if(this.inProgress()){
 			for(Team team: teams.values()){
 				if(team.contains(p)){
-					if(PlayerFiles.hasFile(p))
-							PlayerFiles.loadPlayerInven(p);
-					
-					if(SimpleArena.usePvPChoice)
-						PVPChoiceAPI.setPVPEnabled(p, false);
+					ArenaUtils.resetPlayer(p);
 					team.removePlayer(p);
 					sideBar.removePlayer(p, team);
 				}
 			}
+			if(this.getSize() >= 2)
+				balanceTeams();
 		}else{
 			for(Team team: teams.values()){
 				if(team.contains(p)){
@@ -426,6 +442,15 @@ public class Arena {
 			}
 		}
 		return smallest;
+	}
+	public Team getBiggestTeam(){
+		Team biggest = (Team) teams.values().toArray()[0];
+		for(Team team: teams.values()){
+			if(team.size() > biggest.size()){
+				biggest = team;
+			}
+		}
+		return biggest;
 	}
 	
 	public String getStringPoints(int i){

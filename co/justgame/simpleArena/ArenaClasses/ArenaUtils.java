@@ -1,4 +1,4 @@
-package simpleArena;
+package co.justgame.simpleArena.ArenaClasses;
 
 
 import org.bukkit.Bukkit;
@@ -15,10 +15,40 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import co.justgame.simpleArena.ClassClasses.Class;
+import co.justgame.simpleArena.Main.SimpleArena;
+import co.justgame.simpleArena.Players.PlayerFiles;
+import co.justgame.simpleArena.Teams.Team;
+import co.justgame.simpleArena.Teams.Color.Color;
+
 import com.spiny.pvpchoice.main.PVPChoiceAPI;
 
 
 public class ArenaUtils {
+	
+	
+	public static void resetPlayer(final Player p){
+		p.setHealth(20);
+		p.setFoodLevel(20);
+		p.setSaturation(20);
+		if(SimpleArena.usePvP())
+			PVPChoiceAPI.setPVPEnabled(p, false);
+		if(PlayerFiles.hasFile(p))
+			PlayerFiles.loadPlayerInven(p);
+		
+		for(PotionEffect effect : p.getActivePotionEffects())
+		{
+		    p.removePotionEffect(effect.getType());
+		}
+		p.getInventory().clear();
+		p.getInventory().setArmorContents(new ItemStack[4]);
+		
+		Bukkit.getScheduler().scheduleSyncDelayedTask(SimpleArena.getInstance(), new Runnable(){
+		    public void run() {
+		    	p.setFireTicks(0);
+		    }
+		}, 2L);
+	}
 	
 	@SuppressWarnings("deprecation")
 	public static void resetPlayer(Arena a, final Player p, Team t){

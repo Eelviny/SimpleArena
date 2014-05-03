@@ -1,4 +1,4 @@
-package simpleArena;
+package co.justgame.simpleArena.ClassClasses;
 
 import java.io.File;
 import java.io.IOException;
@@ -20,6 +20,8 @@ import org.bukkit.potion.Potion;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.potion.PotionType;
+
+import co.justgame.simpleArena.Main.SimpleArena;
 
 
 public class ClassFiles {
