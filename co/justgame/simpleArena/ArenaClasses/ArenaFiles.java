@@ -8,6 +8,7 @@ import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -37,8 +38,9 @@ public class ArenaFiles {
 				config.set("delay-time", 20);
 				config.set("point-on-death-time", 20);
 				config.set("players", 2);
-				config.set("kit-time", 10);
+				config.set("class-time", 10);
 				config.set("respawn-on-death", true);
+				config.set("gamemode", "ADVENTURE");
 				config.set("time-limit", 300);
 				config.set("points-limit", 25);
 				
@@ -108,7 +110,8 @@ public class ArenaFiles {
 							 Messages.formatString(config.getString("message-on-start", "Error Loading Message!")),
 							 config.getInt("arena-teams", 2),
 							 config.getInt("players", 2),
-							 config.getInt("kit-time", 20),
+							 config.getInt("class-time", 20),
+							 GameMode.valueOf(config.getString("gamemode", "ADVENTURE")),
 							 config.getInt("delay-time", 20),
 							 config.getInt("point-on-death-time", 30),
 							 config.getBoolean("respawn-on-death", true),

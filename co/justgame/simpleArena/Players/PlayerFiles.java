@@ -63,21 +63,26 @@ public class PlayerFiles {
 	}
 	
 	@SuppressWarnings("deprecation")
-	private synchronized static void setPlayer(Player p, Double health, int hunger, int levels, Double X, Double Y, Double Z
-			, String world, Collection<PotionEffect> potionEffects, ItemStack[] inven, ItemStack[] armor){
+	private synchronized static void setPlayer(final Player p, final Double health, final int hunger, final int levels, final Double X, final Double Y, final Double Z
+			, final String world, final Collection<PotionEffect> potionEffects, final ItemStack[] inven, final ItemStack[] armor){
 		
-		 p.setHealth(health);
-		 p.setFoodLevel(hunger);
-		 p.setLevel(levels);
-		 Location loc = new Location(Bukkit.getWorld(world), X, Y, Z);
-		 p.teleport(loc);
-		 for(PotionEffect pe: potionEffects){
-			 p.addPotionEffect(pe);
-		 }
-		 p.getInventory().setContents(inven);
-		 p.getInventory().setArmorContents(armor);
-		 
-		 p.updateInventory();
+		Bukkit.getScheduler().scheduleSyncDelayedTask(SimpleArena.getInstance(), new Runnable() {
+		    public void run() {
+		    	
+				 p.setHealth(health);
+				 p.setFoodLevel(hunger);
+				 p.setLevel(levels);
+				 Location loc = new Location(Bukkit.getWorld(world), X, Y, Z);
+				 p.teleport(loc);
+				 for(PotionEffect pe: potionEffects){
+					 p.addPotionEffect(pe);
+				 }
+				 p.getInventory().setContents(inven);
+				 p.getInventory().setArmorContents(armor);
+				 
+				 p.updateInventory();
+		    }
+		}, 1L);
 	}
 	
 	@SuppressWarnings({ "unchecked", "unused" })

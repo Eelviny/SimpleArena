@@ -6,6 +6,7 @@ import java.util.LinkedHashMap;
 
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
@@ -35,6 +36,7 @@ public class Arena {
 	private int numberOfTeams = 2;
 	private int players = 8;
 	private int kitTime = 15;
+	private GameMode defaultGamemode;
 	private int pointTime = 30;
 	private int delayTime = 30;
 	private boolean respawn = true;
@@ -53,13 +55,14 @@ public class Arena {
 	int alertCounter = 30;
 	
 	
-	public Arena(String name, String startMessage, int numberOfTeams, int players, int kitTime, int delayTime, int pointTime, boolean respawn, 
+	public Arena(String name, String startMessage, int numberOfTeams, int players, int kitTime, GameMode  gm, int delayTime, int pointTime, boolean respawn, 
 										int limit, int pointsLimit, ArrayList<Location> spawnPoints, ArrayList<String> defaultClasses){
 		this.name = name;
 		this.startMessage = startMessage;
 		this.numberOfTeams = numberOfTeams;
 		this.players = players;
 		this.kitTime = kitTime;
+		this.defaultGamemode = gm;
 		this.delayTime = delayTime;
 		this.pointTime = pointTime;
 		queueCounter = delayTime;
@@ -91,6 +94,9 @@ public class Arena {
 	}
 	public int getkitTime(){
 		return kitTime;
+	}
+	public GameMode getGamemode(){
+		return this.defaultGamemode;
 	}
 	
 	public void startGame(){
@@ -177,6 +183,7 @@ public class Arena {
 			
 			for(Team team: teams.values()){
 				for(Player p: team.getPlayers()){
+					p.setGameMode(GameMode.SURVIVAL);
 					if(SimpleArena.usePvPChoice)
 						PVPChoiceAPI.setPVPEnabled(p, false);
 					if(PlayerFiles.hasFile(p))
@@ -335,7 +342,6 @@ public class Arena {
 			}
 		}
 	}
-	
 	public void startCountDown(){
 		queueLoopID = Bukkit.getScheduler().scheduleSyncRepeatingTask(SimpleArena.getInstance(), new Runnable() {
 		    public void run() {
@@ -366,7 +372,9 @@ public class Arena {
 				Team donator = this.getBiggestTeam();
 				Player p = (Player) donator.getPlayers().toArray()[0];
 				donator.removePlayer(p);
+				sideBar.removePlayer(p, donator);
 				t.addPlayer(p);
+				sideBar.addPlayer(p, t);
 			}
 		}
 	}
@@ -388,14 +396,15 @@ public class Arena {
 					sideBar.removePlayer(p, team);
 				}
 			}
-			if(this.getSize() >= 2)
-				balanceTeams();
 		}else{
 			for(Team team: teams.values()){
 				if(team.contains(p)){
 					team.removePlayer(p);
 					sideBar.removePlayer(p, team);
 				}
+			}
+			if(this.getSize() >= 2){
+				balanceTeams();
 			}
 		}
 	}

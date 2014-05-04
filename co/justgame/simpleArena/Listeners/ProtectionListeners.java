@@ -56,7 +56,7 @@ public class ProtectionListeners implements Listener {
 		Player p = e.getPlayer();
 		if(SimpleArena.inArena(p) && SimpleArena.getArena(p).inProgress()){
 			if(!e.getMessage().equalsIgnoreCase("/arena leave") && !e.getMessage().equalsIgnoreCase("/arena stop")){
-				if(!p.hasPermission("simplearena.command") || p.isOp()){
+				if(!p.hasPermission("simplearena.command.use") || p.isOp()){
 					e.setCancelled(true);
 					p.sendMessage(Messages.get("simplearena.ingame.command"));
 				}

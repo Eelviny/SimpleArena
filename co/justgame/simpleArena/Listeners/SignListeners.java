@@ -22,7 +22,7 @@ public class SignListeners implements Listener {
 	public synchronized void placeSign(SignChangeEvent e){
 		if(!e.isCancelled()){
 			String text = e.getLine(0);
-			if(text.equals("Arena")){
+			if(text.equalsIgnoreCase("Arena")){
 				if(!e.getPlayer().hasPermission("simplearena.sign") && !e.getPlayer().isOp()){
 					e.setCancelled(true);
 					e.getPlayer().sendMessage(Messages.get("simplearena.sign.place"));
@@ -38,7 +38,7 @@ public class SignListeners implements Listener {
 			Player p = e.getPlayer();
 			if(b.getType().equals(Material.SIGN)|| b.getType().equals(Material.WALL_SIGN)){
 				Sign s = (Sign) e.getClickedBlock().getState();
-				if(removeColorCodes(s.getLine(0)).equals("Arena")){
+				if(removeColorCodes(s.getLine(0)).equalsIgnoreCase("Arena")){
 					if(!p.isSneaking()){
 						e.setCancelled(true);
 						if(s.getLine(1)!= null){
@@ -52,19 +52,19 @@ public class SignListeners implements Listener {
 								}
 								
 								if(p.hasPermission("simplearena.join.sign") || e.getPlayer().isOp()){
-									if(arena.isMaxed()){
-										e.getPlayer().sendMessage(Messages.get("simplearena.join.full"));
-									}else{
-										if(arena.contains(p)){
+									if(arena.contains(p)){
+										if(arena.isMaxed()){
+											e.getPlayer().sendMessage(Messages.get("simplearena.join.full"));
+										}else{
 											arena.sendMessage(Messages.get("simplearena.leave.normal").replace("%player%", p.getName()));
 											arena.removePlayer(p);
+										}
+									}else{
+										if(!arena.inProgress()){
+											arena.addPlayer(p);
+											arena.sendMessage(Messages.get("simplearena.join.normal").replace("%player%", p.getName()));
 										}else{
-											if(!arena.inProgress()){
-												arena.addPlayer(p);
-												arena.sendMessage(Messages.get("simplearena.join.normal").replace("%player%", p.getName()));
-											}else{
-												e.getPlayer().sendMessage(Messages.get("simplearena.join.inprogress"));
-											}
+											e.getPlayer().sendMessage(Messages.get("simplearena.join.inprogress"));
 										}
 									}
 								}else{

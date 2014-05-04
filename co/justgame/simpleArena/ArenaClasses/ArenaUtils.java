@@ -3,6 +3,7 @@ package co.justgame.simpleArena.ArenaClasses;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Effect;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -31,6 +32,7 @@ public class ArenaUtils {
 		p.setHealth(20);
 		p.setFoodLevel(20);
 		p.setSaturation(20);
+		p.setGameMode(GameMode.SURVIVAL);
 		if(SimpleArena.usePvP())
 			PVPChoiceAPI.setPVPEnabled(p, false);
 		if(PlayerFiles.hasFile(p))
@@ -55,6 +57,7 @@ public class ArenaUtils {
 		p.setHealth(20);
 		p.setFoodLevel(20);
 		p.setSaturation(20);
+		p.setGameMode(a.getGamemode());
 		if(SimpleArena.usePvP())
 			PVPChoiceAPI.setPVPEnabled(p, true);
 		

@@ -111,7 +111,7 @@ public class SimpleArena extends JavaPlugin{
 				String command = args[0];
 				
 				if(command.equalsIgnoreCase("join")){
-					if(sender.hasPermission("simplearena.join")){
+					if(sender.hasPermission("simplearena.command.join")){
 					
 						Player p = null;
 						if(sender instanceof Player){
@@ -156,7 +156,7 @@ public class SimpleArena extends JavaPlugin{
 						sender.sendMessage(Messages.get("simplearena.command.noperms"));
 					}
 				}else if(command.equalsIgnoreCase("leave")){
-					if(sender.hasPermission("simplearena.leave")){
+					if(sender.hasPermission("simplearena.command.leave")){
 						Player p = null;
 						if(sender instanceof Player){
 							p = (Player) sender;
@@ -183,7 +183,7 @@ public class SimpleArena extends JavaPlugin{
 					Arena a = null;
 					
 					if(args.length == 1){
-						if(sender.hasPermission("simplearena.start")){
+						if(sender.hasPermission("simplearena.command.start")){
 							Player p = null;
 							if(sender instanceof Player){
 								p = (Player) sender;
@@ -197,7 +197,7 @@ public class SimpleArena extends JavaPlugin{
 							return true;
 						}
 					}else if(args.length >= 2){
-						if(sender.hasPermission("simplearena.startarena")){
+						if(sender.hasPermission("simplearena.command.startarena")){
 							a = SimpleArena.getArena(StringUtils.join(args, " ", 1, args.length));
 						}else{
 							sender.sendMessage(Messages.get("simplearena.command.noperms"));
@@ -233,7 +233,7 @@ public class SimpleArena extends JavaPlugin{
 					}
 				}else if(command.equalsIgnoreCase("stop")){
 					if(args.length == 1){
-						if(sender.hasPermission("simplearena.stop")){
+						if(sender.hasPermission("simplearena.command.stop")){
 						
 							Player p = null;
 							if(sender instanceof Player){
@@ -259,7 +259,7 @@ public class SimpleArena extends JavaPlugin{
 							sender.sendMessage(Messages.get("simplearena.command.noperms"));
 						}
 					}else if(args.length >= 2){
-						if(sender.hasPermission("simplearena.stoparena")){
+						if(sender.hasPermission("simplearena.command.stoparena")){
 							Arena a = SimpleArena.getArena(StringUtils.join(args, " ", 1, args.length));
 							if(a != null){
 								if(a.inProgress()){
