@@ -16,11 +16,8 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.potion.Potion;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-import org.bukkit.potion.PotionType;
-
 import co.justgame.simpleArena.Main.SimpleArena;
 
 
@@ -38,18 +35,7 @@ private static Plugin plugin = SimpleArena.getInstance();
 				FileConfiguration config = YamlConfiguration.loadConfiguration(classFile);
 			
 				config.set("name", "default");
-				
-				config.set("chestplate.type", "IRON");
-				config.set("chestplate.enchantment.type", "PROTECTION_PROJECTILE");
-				config.set("chestplate.enchantment.level", 2);
-				config.set("leggings.type", "LEATHER");
-				config.set("boots.type", "GOLD");
-				config.set("items", "IRON_SWORD, 1 (FIRE_ASPECT | 1); Iron_Axe, 2;cooked_beef, 24");
-				config.set("potions.potion1.potiontype", "INSTANT_HEAL");
-				config.set("potions.potion1.number", 2);
-				config.set("potions.potion1.level", 2);
-				config.set("potions.potion1.splash", true);
-				config.set("potions.potion1.extended", false);
+				config.set("items", "DIAMOND_CHESTPLATE: 1, 50 (DURABILITY: 1; PROTECTION_EXPLOSIONS: 2) - DIAMOND_LEGGINGS: 1, 50 - DIAMOND_BOOTS: 1, 50 - DIAMOND_SWORD: 1, 50");
 			
 				config.set("effects.effect1.type", "HEAL");
 				config.set("effects.effect1.strength", 1);
@@ -63,7 +49,6 @@ private static Plugin plugin = SimpleArena.getInstance();
 		}
 	}
 	
-	@SuppressWarnings("deprecation")
 	public static ArrayList<Class> loadClasses(){
 		File classFolder = new File(plugin.getDataFolder()+File.separator+"Class"+File.separator);
 		try{
@@ -80,69 +65,41 @@ private static Plugin plugin = SimpleArena.getInstance();
 				 
 				 	 Class clazz = null;
 				 	 
-				 	 ArrayList<ItemStack> armor = new ArrayList<ItemStack>() ;
-				 	 ItemStack Chestplate = getItem(config.getString("chestplate.type"), "chestplate");
-				 	 if(config.getString("chestplate.enchantment.type") != null){
-				 		 Chestplate.addEnchantment(Enchantment.getByName(config.getString("chestplate.enchantment.type").toUpperCase()), 
-				 				config.getInt("chestplate.enchantment.level", 1));
-				 	 }
-				 	 if(Chestplate != null) armor.add(Chestplate);
-				 	 
-				 	 ItemStack Leggings = getItem(config.getString("leggings.type"), "leggings");
-				 	if(config.getString("leggings.enchantment.type") != null){
-				 		 Chestplate.addEnchantment(Enchantment.getByName(config.getString("leggings.enchantment.type").toUpperCase()), 
-				 				config.getInt("leggings.enchantment.level", 1));
-				 	 }
-				 	 if(Leggings != null) armor.add(Leggings);
-				 	 
-				 	 ItemStack Boots = getItem(config.getString("boots.type"), "boots");
-				 	if(config.getString("boots.enchantment.type") != null){
-				 		 Chestplate.addEnchantment(Enchantment.getByName(config.getString("boots.enchantment.type").toUpperCase()), 
-				 				config.getInt("boots.enchantment.level", 1));
-				 	 }
-				 	 if(Boots != null) armor.add(Boots);
-				 	 
 				 	ArrayList<ItemStack> items = new ArrayList<ItemStack>();
+				 	ArrayList<ItemStack> armor = new ArrayList<ItemStack>();
 				 	
 				 	List<String> itemGroups;
-				 	itemGroups = Arrays.asList(config.getString("items").split(";"));
-				 	
-				 	for(String string: itemGroups){
-				 		String[] components = string.split(",");
-				 		if(components[1].contains("(")){
-				 			String[] enchantment = components[1].replace(")", "").split("\\(");
-				 			String[] enchantmentComponents = enchantment[1].split("\\|");
-				 			ItemStack item = new ItemStack(Material.matchMaterial(components[0].trim()), Integer.parseInt(enchantment[0].trim()));
-				 			item.addEnchantment(Enchantment.getByName(enchantmentComponents[0].trim()), Integer.parseInt(enchantmentComponents[1].trim()));
-				 			items.add(item);
-				 		}else{
-				 			items.add(new ItemStack(Material.matchMaterial(components[0].trim()), Integer.parseInt(components[1].trim())));
-				 		}
-				 		
-				 		
+				 	itemGroups = Arrays.asList(config.getString("items").split("-"));
+				 	for(String string : itemGroups){
+				 		ItemStack BuiltItem;
+				 		String[] components = string.split("\\(");
+				 		String item = components[0];
+					 		String[] itemComponents = item.split(":");
+					 			Material itemtype = Material.getMaterial(itemComponents[0].trim().toUpperCase());
+					 			String numberAndDamage = itemComponents[1];
+					 			String[] numberAndDamageSplit = numberAndDamage.split(",");
+					 				int number = Integer.valueOf(numberAndDamageSplit[0].trim());
+					 				int damage = Integer.valueOf(numberAndDamageSplit[1].trim());
+						 			BuiltItem = new ItemStack(itemtype, number, (short) damage);			
+						 			
+						 if(components.length == 2){	
+						 	String enchantsList = components[1].replace(")", "");
+					 			String[] enchants = enchantsList.split(";");
+					 			for(String enchant: enchants){
+					 				String[] typeAndStrength = enchant.split(":");
+					 				BuiltItem.addUnsafeEnchantment(Enchantment.getByName(typeAndStrength[0].trim().toUpperCase()), 
+					 						Integer.valueOf(typeAndStrength[1].trim()));
+					 			}
+						 }
+						 items.add(BuiltItem);
 				 	}
-				 	
-				 	ArrayList<ItemStack> potions = new ArrayList<ItemStack>();
-				 	
-				 	PotionType potionType = PotionType.INSTANT_HEAL;
-				 	int number = 1;
-				 	int level = 1;
-				 	boolean extended = false;
-				 	boolean splash = false;
-				 	
-				 	for(String message: config.getConfigurationSection("").getKeys(true)){
-				 		if(message.endsWith(".potiontype")){
-				 			potionType = PotionType.valueOf((config.getString(message).toUpperCase()));
-				 		}else if (message.endsWith(".number")){
-				 			number = config.getInt(message);
-				 		}else if (message.endsWith(".level")){
-				 			level = config.getInt(message);
-				 		}else if (message.endsWith(".extended")){
-				 			extended = config.getBoolean(message);
-				 		}else if (message.endsWith(".splash")){
-				 			splash = config.getBoolean(message);
-				 			potions.add(new Potion(potionType, level, splash, extended).toItemStack(number));
-				 			potionType = PotionType.INSTANT_HEAL; level = 0; extended = false; splash = false;
+				 	int lookup = 0;
+				 	for(int i = 0; i < 3; i++){
+				 		if(isArmor(items.get(lookup))){
+					 		armor.add(items.get(lookup));
+					 		items.remove(lookup);
+				 		}else{
+				 			lookup++;
 				 		}
 				 	}
 				 	
@@ -163,7 +120,7 @@ private static Plugin plugin = SimpleArena.getInstance();
 				 		}
 				 	}
 					
-					clazz = new Class(config.getString("name"), armor, items, potions, effects);
+					clazz = new Class(config.getString("name"), armor, items, effects);
 					classes.add(clazz);
 				}
 			}catch (IOException e){
@@ -176,11 +133,10 @@ private static Plugin plugin = SimpleArena.getInstance();
 		return classes;
 	}
 	
-	private static ItemStack getItem(String string, String type)throws Exception{
-		 String armor = string.toLowerCase().replace(type, "");
-	 	 if(!armor.equalsIgnoreCase("Null") || !armor.equalsIgnoreCase("None")){
-	 		 return new ItemStack(Material.matchMaterial(armor+"_"+type));
-	 	 }
-		return null;
+	private static boolean isArmor(ItemStack item){
+		Material m = item.getType();
+		return m.equals(Material.LEATHER_CHESTPLATE) || m.equals(Material.GOLD_CHESTPLATE) || m.equals(Material.IRON_CHESTPLATE) || m.equals(Material.DIAMOND_CHESTPLATE) 
+				|| m.equals(Material.LEATHER_LEGGINGS) || m.equals(Material.GOLD_LEGGINGS) || m.equals(Material.IRON_LEGGINGS) || m.equals(Material.DIAMOND_LEGGINGS)
+				|| m.equals(Material.LEATHER_BOOTS) || m.equals(Material.GOLD_BOOTS) || m.equals(Material.IRON_BOOTS) || m.equals(Material.DIAMOND_BOOTS);
 	}
 }

@@ -23,11 +23,11 @@ public class Class {
 	private ItemStack[] items;
 	private ArrayList<PotionEffect> effects;
 	
-	public Class(String name, ArrayList<ItemStack> armor, ArrayList<ItemStack> items, ArrayList<ItemStack> potions, ArrayList<PotionEffect> effects){
+	public Class(String name, ArrayList<ItemStack> armor, ArrayList<ItemStack> items, ArrayList<PotionEffect> effects){
 		this.name = name;	
 		this.armor = armor;
 		Collections.reverse(this.armor);
-		this.items = Iterables.toArray(Iterables.concat(items, potions), ItemStack.class);
+		this.items = Iterables.toArray(items, ItemStack.class);
 		this.effects = effects;
 	}
 	
