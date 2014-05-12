@@ -35,8 +35,8 @@ private static Plugin plugin = SimpleArena.getInstance();
 				FileConfiguration config = YamlConfiguration.loadConfiguration(classFile);
 			
 				config.set("name", "default");
-				config.set("items", "DIAMOND_CHESTPLATE: 1, 50 (DURABILITY: 1; PROTECTION_EXPLOSIONS: 2) - DIAMOND_LEGGINGS: 1, 50 - DIAMOND_BOOTS: 1, 50 - DIAMOND_SWORD: 1, 50");
-			
+				config.set("items", Arrays.asList("DIAMOND_CHESTPLATE: 1, 50 (DURABILITY: 1; PROTECTION_EXPLOSIONS: 2)", 
+												  "DIAMOND_LEGGINGS: 1, 50", "DIAMOND_BOOTS: 1, 50", "DIAMOND_SWORD: 1, 50"));
 				config.set("effects.effect1.type", "HEAL");
 				config.set("effects.effect1.strength", 1);
 				config.set("effects.effect1.length", 5);
@@ -68,8 +68,7 @@ private static Plugin plugin = SimpleArena.getInstance();
 				 	ArrayList<ItemStack> items = new ArrayList<ItemStack>();
 				 	ArrayList<ItemStack> armor = new ArrayList<ItemStack>();
 				 	
-				 	List<String> itemGroups;
-				 	itemGroups = Arrays.asList(config.getString("items").split("-"));
+				 	List<String> itemGroups = config.getStringList("items");
 				 	for(String string : itemGroups){
 				 		ItemStack BuiltItem;
 				 		String[] components = string.split("\\(");

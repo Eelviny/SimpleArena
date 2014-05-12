@@ -240,9 +240,9 @@ public class Arena {
 		}
 		 
 		for(Player p: Bukkit.getOnlinePlayers()){
-			p.sendMessage("§8§m<> ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ <>");
+			p.sendMessage("");
 			p.sendMessage(message);
-			p.sendMessage("§8§m<> ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ ■ <>");
+			p.sendMessage("");
 		}
 	}
 	
