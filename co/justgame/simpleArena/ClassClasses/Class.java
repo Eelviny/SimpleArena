@@ -38,6 +38,7 @@ public class Class {
     public void setPlayerClass(Player p){
         PlayerInventory inven = p.getInventory();
         inven.clear();
+        inven.setArmorContents(new ItemStack[4]);
         inven.setArmorContents(armor.toArray(new ItemStack[armor.size() + 1]));
         inven.setContents(items);
         p.getInventory().setHelmet(new ItemStack(Material.WOOL, 1, (short) Color.getWoolColor(SimpleArena.getArena(p).getTeam(p)
@@ -45,6 +46,9 @@ public class Class {
         p.updateInventory();
         p.playSound(p.getLocation(), Sound.ITEM_PICKUP, 1, 2);
 
+        for(PotionEffect effect: p.getActivePotionEffects()){
+            p.removePotionEffect(effect.getType());
+        }
         for(PotionEffect pe: effects){
             p.addPotionEffect(pe);
         }

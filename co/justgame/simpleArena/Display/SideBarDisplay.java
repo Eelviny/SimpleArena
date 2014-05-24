@@ -5,7 +5,6 @@ import java.util.Collection;
 
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
@@ -30,7 +29,7 @@ public class SideBarDisplay {
     private ScoreboardManager manager = Bukkit.getScoreboardManager();
     private Scoreboard queboard = manager.getNewScoreboard();
     private Scoreboard pointsboard = manager.getNewScoreboard();
-    private Objective que = queboard.registerNewObjective("Players in Queue", "dummy");
+    private Objective que = queboard.registerNewObjective("People in Queue", "dummy");
     private Objective points = pointsboard.registerNewObjective("Points", "dummy");
 
     private ArrayList<Player> users = new ArrayList<Player>();
@@ -38,28 +37,24 @@ public class SideBarDisplay {
     public SideBarDisplay(int waitTime, int gameTime){
         que.setDisplaySlot(DisplaySlot.SIDEBAR);
         points.setDisplaySlot(DisplaySlot.SIDEBAR);
-        Score score = que.getScore(ChatColor.GREEN + "Game In:");
         this.waitTime = waitTime;
-        score.setScore(waitTime);
+        que.setDisplayName("§aGame in:§f "+waitTime);
         this.gameTime = gameTime;
         if(gameTime > 0){
-            Score timeScore = points.getScore(ChatColor.GREEN + "Time Left:");
-            timeScore.setScore(gameTime);
+           points.setDisplayName("§aTime left:§f "+gameTime);
         }
     }
 
     public void decrementCounter(int i){
         if(State.equals(state.Queue)){
-            Score score = que.getScore(ChatColor.GREEN + "Game In:");
-            score.setScore(i);
+            que.setDisplayName("§aGame in:§f "+i);
         }
     }
 
     public void decrementTimeCounter(int i){
         if(State.equals(state.Game)){
             if(gameTime >= 0){
-                Score score = points.getScore(ChatColor.GREEN + "Time Left:");
-                score.setScore(i);
+                points.setDisplayName("§aTime left:§f "+i);
             }
         }
     }
@@ -114,7 +109,7 @@ public class SideBarDisplay {
         pointsboard = manager.getNewScoreboard();
         que.unregister();
         points.unregister();
-        que = queboard.registerNewObjective("Players in Queue", "dummy");
+        que = queboard.registerNewObjective("§aGame in:§f "+waitTime, "dummy");
         points = pointsboard.registerNewObjective("Points", "dummy");
 
         que.setDisplaySlot(DisplaySlot.SIDEBAR);
@@ -122,12 +117,8 @@ public class SideBarDisplay {
 
         addSlots(teams);
 
-        Score score = que.getScore(ChatColor.GREEN + "Game In:");
-        score.setScore(waitTime);
-
         if(gameTime > 0){
-            Score timeScore = points.getScore(ChatColor.GREEN + "Time Left:");
-            timeScore.setScore(gameTime);
+            points.setDisplayName("§aTime left:§f "+gameTime);
         }
     }
 

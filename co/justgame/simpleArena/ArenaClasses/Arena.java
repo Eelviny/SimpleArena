@@ -168,7 +168,7 @@ public class Arena {
                             }
                             alertCounter = 30;
                         }
-                        if(getSize() < 2){
+                        if(getSize() < 2 || oneTeamIsLeft()){
                             endGame(true);
                         }
                         gameCounter--;
@@ -191,10 +191,11 @@ public class Arena {
                 for(Player p: team.getPlayers()){
                     p.setGameMode(GameMode.SURVIVAL);
                     if(SimpleArena.usePvPChoice) PVPChoiceAPI.setPVPEnabled(p, false);
-                    if(PlayerFiles.hasFile(p)) if(threading)
-                        PlayerFiles.loadPlayerInven(p);
-                    else
-                        PlayerFiles.loadPlayerInvenWithoutThreading(p);
+                    if(PlayerFiles.hasFile(p)) 
+                        if(threading)
+                            PlayerFiles.loadPlayerInven(p);
+                        else
+                            PlayerFiles.loadPlayerInvenWithoutThreading(p);
                 }
                 team.resetScore();
                 team.clearTeam();
@@ -393,6 +394,20 @@ public class Arena {
             startCountDown();
         }
     }
+    
+    public synchronized boolean oneTeamIsLeft(){
+        int i = 0;
+        for(Team team: teams.values()){
+            if(team.getPlayers().size() != 0){
+                i++;
+            }
+        }
+        if(i == 1){
+            return true;
+        }else{
+            return false;
+        }
+    }
 
     public synchronized void removePlayer(Player p){
         if(this.inProgress()){
@@ -401,6 +416,8 @@ public class Arena {
                     ArenaUtils.resetPlayer(p);
                     team.removePlayer(p);
                     sideBar.removePlayer(p, team);
+                    if(timeSinceRespawn.containsKey(p))
+                        timeSinceRespawn.remove(p);
                 }
             }
         }else{
@@ -408,6 +425,8 @@ public class Arena {
                 if(team.contains(p)){
                     team.removePlayer(p);
                     sideBar.removePlayer(p, team);
+                    if(timeSinceRespawn.containsKey(p))
+                        timeSinceRespawn.remove(p);
                 }
             }
             if(this.getSize() >= 2){
@@ -524,7 +543,7 @@ public class Arena {
                     }
                 }
             }
-        }, 1, 20L);
+        }, 40, 20L);
     }
 
     private String addPunctuation(String s){

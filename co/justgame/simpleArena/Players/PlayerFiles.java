@@ -68,15 +68,14 @@ public class PlayerFiles {
             final Double X, final Double Y, final Double Z, final String world, final Collection<PotionEffect> potionEffects,
             final ItemStack[] inven, final ItemStack[] armor){
 
-        Bukkit.getScheduler().scheduleSyncDelayedTask(SimpleArena.getInstance(), new Runnable(){
-
-            public void run(){
-
                 p.setHealth(health);
                 p.setFoodLevel(hunger);
                 p.setLevel(levels);
                 Location loc = new Location(Bukkit.getWorld(world), X, Y, Z);
                 p.teleport(loc);
+                for(PotionEffect effect: p.getActivePotionEffects()){
+                    p.removePotionEffect(effect.getType());
+                }
                 for(PotionEffect pe: potionEffects){
                     p.addPotionEffect(pe);
                 }
@@ -84,8 +83,6 @@ public class PlayerFiles {
                 p.getInventory().setArmorContents(armor);
 
                 p.updateInventory();
-            }
-        }, 1L);
     }
 
     @SuppressWarnings({ "unchecked", "unused" })
@@ -128,9 +125,9 @@ public class PlayerFiles {
 
                 File playersFile = createPlayerFile(UUID, true);
                 try{
-                    FileConfiguration config = YamlConfiguration.loadConfiguration(playersFile);
+                    final FileConfiguration config = YamlConfiguration.loadConfiguration(playersFile);
 
-                    ArrayList<PotionEffect> potionEffects = new ArrayList<PotionEffect>();
+                    final ArrayList<PotionEffect> potionEffects = new ArrayList<PotionEffect>();
 
                     if(config.getConfigurationSection("potions") != null){
                         int i = 1;
@@ -144,15 +141,20 @@ public class PlayerFiles {
                     }
 
                     ArrayList<ItemStack> contentArrayList = (ArrayList<ItemStack>) config.get("inventory");
-                    ItemStack[] inven = contentArrayList.toArray(new ItemStack[contentArrayList.size()]);
+                    final ItemStack[] inven = contentArrayList.toArray(new ItemStack[contentArrayList.size()]);
 
                     ArrayList<ItemStack> armorArrayList = (ArrayList<ItemStack>) config.get("armor");
-                    ItemStack[] armor = armorArrayList.toArray(new ItemStack[armorArrayList.size()]);
+                    final ItemStack[] armor = armorArrayList.toArray(new ItemStack[armorArrayList.size()]);
 
                     playersFile.delete();
 
-                    setPlayer(p, config.getDouble("health"), config.getInt("hunger"), config.getInt("levels"), config.getDouble("location.x"), config
-                            .getDouble("location.y"), config.getDouble("location.z"), config.getString("location.world"), potionEffects, inven, armor);
+
+                    Bukkit.getScheduler().scheduleSyncDelayedTask( SimpleArena.getInstance(), new Runnable(){
+                        public void run(){
+                            setPlayer(p, config.getDouble("health"), config.getInt("hunger"), config.getInt("levels"), config.getDouble("location.x"), config
+                                    .getDouble("location.y"), config.getDouble("location.z"), config.getString("location.world"), potionEffects, inven, armor);
+                        }
+                    });
                 }catch (NullPointerException e){
                     Bukkit.getLogger().log(Level.WARNING, "Empty Player File Found in Player Folder!");
                 }finally{

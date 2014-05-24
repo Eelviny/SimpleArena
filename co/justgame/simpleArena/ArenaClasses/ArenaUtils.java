@@ -109,6 +109,9 @@ public class ArenaUtils {
         p.setHealth(20);
         p.setFoodLevel(20);
         p.setSaturation(20);
+        for(PotionEffect effect: p.getActivePotionEffects()){
+            p.removePotionEffect(effect.getType());
+        }
         a.getClass(p).setPlayerClass(p);
         p.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 30, 1));
         a.setRespawn(p);
