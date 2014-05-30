@@ -148,7 +148,7 @@ public class SideBarDisplay {
 
     public String abbreviate(String name){
         StringBuilder newName = new StringBuilder(name);
-        if(name.length() > 15){
+        if(name.length() > 14){
             for(int i = 0; i < (name.length() - 12); i++){
                 newName.deleteCharAt(newName.length() - 1);
             }

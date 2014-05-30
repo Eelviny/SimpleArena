@@ -34,6 +34,7 @@ public class Arena {
     private String name;
     private String startMessage = "";
     private int numberOfTeams = 2;
+    private boolean woolhelmet = true;
     private int players = 8;
     private int kitTime = 15;
     private GameMode defaultGamemode;
@@ -54,12 +55,13 @@ public class Arena {
     int gameCounter = limit;
     int alertCounter = 30;
 
-    public Arena(String name, String startMessage, int numberOfTeams, int players, int kitTime, GameMode gm, int delayTime,
+    public Arena(String name, String startMessage, int numberOfTeams, boolean woolhelmet, int players, int kitTime, GameMode gm, int delayTime,
             int pointTime, boolean respawn, int limit, int pointsLimit, ArrayList<Location> spawnPoints,
             ArrayList<String> defaultClasses){
         this.name = name;
         this.startMessage = startMessage;
         this.numberOfTeams = numberOfTeams;
+        this.woolhelmet = woolhelmet;
         this.players = players;
         this.kitTime = kitTime;
         this.defaultGamemode = gm;
@@ -98,6 +100,10 @@ public class Arena {
 
     public int getkitTime(){
         return kitTime;
+    }
+    
+    public boolean giveWoolHelmets(){
+        return woolhelmet;
     }
 
     public GameMode getGamemode(){

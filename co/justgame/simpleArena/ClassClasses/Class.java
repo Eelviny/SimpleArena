@@ -41,7 +41,8 @@ public class Class {
         inven.setArmorContents(new ItemStack[4]);
         inven.setArmorContents(armor.toArray(new ItemStack[armor.size() + 1]));
         inven.setContents(items);
-        p.getInventory().setHelmet(new ItemStack(Material.WOOL, 1, (short) Color.getWoolColor(SimpleArena.getArena(p).getTeam(p)
+        if(SimpleArena.getArena(p).giveWoolHelmets())
+            p.getInventory().setHelmet(new ItemStack(Material.WOOL, 1, (short) Color.getWoolColor(SimpleArena.getArena(p).getTeam(p)
                 .getColor())));
         p.updateInventory();
         p.playSound(p.getLocation(), Sound.ITEM_PICKUP, 1, 2);

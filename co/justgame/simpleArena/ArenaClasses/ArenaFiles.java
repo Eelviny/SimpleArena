@@ -34,6 +34,7 @@ public class ArenaFiles {
                 config.set("name", "sample");
                 config.set("message-on-start", "&8[Arena] &9First team to 25 points or the team with the most points at the end of 300 seconds wins!");
                 config.set("arena-teams", 2);
+                config.set("wool-helmets", true);
                 config.set("delay-time", 20);
                 config.set("point-on-death-time", 20);
                 config.set("players", 2);
@@ -106,8 +107,8 @@ public class ArenaFiles {
 
                     arena = new Arena(config.getString("name"), Messages.formatString(config
                             .getString("message-on-start", "Error Loading Message!")), config.getInt("arena-teams", 2),
-                            config.getInt("players", 2), config.getInt("class-time", 20), GameMode.valueOf(config
-                                    .getString("gamemode", "ADVENTURE")), config.getInt("delay-time", 20),
+                            config.getBoolean("wool-helmets", true),config.getInt("players", 2), config.getInt("class-time", 20),
+                            GameMode.valueOf(config.getString("gamemode", "ADVENTURE")), config.getInt("delay-time", 20),
                             config.getInt("point-on-death-time", 30), config.getBoolean("respawn-on-death", true),
                             config.getInt("time-limit", 300), config.getInt("points-limit", 25), spawnPoints, defaultClasses);
                     arenas.add(arena);
