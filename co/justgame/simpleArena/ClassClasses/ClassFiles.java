@@ -115,7 +115,7 @@ public class ClassFiles {
                             strength = config.getInt(message);
                         }else if(message.endsWith(".length")){
                             length = config.getInt(message);
-                            effects.add(new PotionEffect(type, length, strength));
+                            effects.add(new PotionEffect(type, length*20, strength));
                             type = PotionEffectType.HEAL;
                             length = 0;
                             strength = 0;
