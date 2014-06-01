@@ -109,8 +109,25 @@ public class SimpleArena extends JavaPlugin {
         if(cmd.getLabel().equalsIgnoreCase("arena")){
             if(args.length > 0){
                 String command = args[0];
-
-                if(command.equalsIgnoreCase("join")){
+                
+                if(command.equalsIgnoreCase("list")){
+                    if(sender.hasPermission("simplearena.command.list")){
+                        if(args.length == 1){
+                            StringBuilder message = new StringBuilder("§2Arenas:/n");
+                            for(Arena a: arenas){
+                                message.append("§8   -"+StringUtils.capitalize(a.getName())+"/n");
+                            }
+                            message.append("/n§3For more information on a specific arena use /arena list <Arena>!");
+                            sendMultilineMessage(sender, message.toString());
+                        }else{
+                            String a = StringUtils.join(args, " ", 1, args.length);
+                            Arena arena = SimpleArena.getArena(a);
+                            sendMultilineMessage(sender, arena.toString());
+                        }
+                    }else{
+                        sender.sendMessage(Messages.get("simplearena.command.noperms"));
+                    }
+                }else if(command.equalsIgnoreCase("join")){
                     if(sender.hasPermission("simplearena.command.join")){
 
                         Player p = null;
@@ -363,5 +380,12 @@ public class SimpleArena extends JavaPlugin {
         }
         return null;
     }
-
+    private void sendMultilineMessage(CommandSender sender, String message){
+        if(sender != null && message != null){
+            String[] s = message.split("/n");
+            for(String m: s){
+                sender.sendMessage(m);
+            }
+        }
+    }
 }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -43,6 +44,8 @@ public class Arena {
     private boolean respawn = true;
     private int limit = 300;
     private int pointsLimit = 20;
+    private ArrayList<Location> spawnPoints;
+    private ArrayList<String> defaultClasses;
     Listener listener = null;
 
     private SideBarDisplay sideBar;
@@ -72,6 +75,8 @@ public class Arena {
         this.limit = limit;
         gameCounter = limit;
         this.pointsLimit = pointsLimit;
+        this.defaultClasses = defaultClasses;
+        this.spawnPoints = spawnPoints;
         this.sideBar = new SideBarDisplay(queueCounter, gameCounter);
 
         Color colors = new Color();
@@ -80,6 +85,32 @@ public class Arena {
             teams.put(Color, new Team(Color, this.players, spawnPoints.get(i), defaultClasses.get(i)));
         }
         sideBar.addSlots(teams.values());
+    }
+    @Override
+    public String toString(){
+        StringBuilder b = new StringBuilder( "§2"+StringUtils.capitalize(name)+":/n"
+                                           + "§8   message-on-start:§r "+startMessage+"/n"
+                                           + "§8   teams:§3 "+numberOfTeams+"/n"
+                                           + "§8   players:§3 "+players+"/n"
+                                           + "§8   wool-helmets:§3 "+woolhelmet+"/n"
+                                           + "§8   gamemode:§3 "+StringUtils.capitalize(defaultGamemode.toString().toLowerCase())+"/n"
+                                           + "§8   delay-time:§3 "+delayTime+"/n"
+                                           + "§8   kit-time:§3 "+kitTime+"/n"
+                                           + "§8   time-limit:§3 "+limit+"/n"
+                                           + "§8   points-limit:§3 "+pointsLimit+"/n"
+                                           + "§8   respawn:§3 "+respawn+"/n"
+                                           + "§8   point-on-death-time:§3 "+pointTime+"/n");
+        for(int i = 0; i < numberOfTeams;i++){
+            Location loc = spawnPoints.get(i);
+            b.append("§b  Team "+i+":/n"
+                   + "§8         spawn point:/n"
+                   + "§7             X:§3 "+loc.getX()+"/n"
+                   + "§7             Y:§3 "+loc.getY()+"/n"
+                   + "§7             Z:§3 "+loc.getZ()+"/n"
+                   + "§7             World:§3 "+StringUtils.capitalize(loc.getWorld().getName().toLowerCase())+"/n"
+                   + "§8         default class:§3 "+defaultClasses.get(i)+"/n");
+        }
+        return b.toString();
     }
 
     public void sendMessage(String s){
