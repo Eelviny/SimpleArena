@@ -49,11 +49,12 @@ public class Messages {
         setMessage("simplearena.command.stop", "&8[Arena]&9 Match force stopped by %player%!");
         setMessage("simplearena.command.stopqueue", "&8[Arena]&9 Queue force closed by %player%!");
 
-        setMessage("simplearena.command.usage.arena", "&cUsage: /arena join || leave || start || stop");
+        setMessage("simplearena.command.usage.arena", "&cUsage: /arena join || leave || start || stop || info || list");
         setMessage("simplearena.command.usage.join", "&cUsage: /arena join || join <arena>");
         setMessage("simplearena.command.usage.leave", "&cUsage: /arena leave");
         setMessage("simplearena.command.usage.start", "&cUsage: /arena start || start <arena>");
         setMessage("simplearena.command.usage.stop", "&cUsage: /arena stop || stop <arena>");
+        setMessage("simplearena.command.usage.info", "&cUsage: /arena info <arena>");
 
         setMessage("simplearena.class.join", "&8[Arena] &9You joined the %Clazz% Class!");
         setMessage("simplearena.class.long", "&8[Arena] &cYou cannot change Class more than %time% sec. after respawn!");

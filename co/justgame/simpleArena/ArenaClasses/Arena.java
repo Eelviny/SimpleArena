@@ -112,6 +112,23 @@ public class Arena {
         }
         return b.toString();
     }
+    public String getPlayersInList(){
+        synchronized(teams){
+            StringBuilder l = new StringBuilder();
+            for(Team t: teams.values()){
+                for(Player p: t.getPlayers()){
+                    l.append(p.getName()+" ");
+                }
+            }
+            if(l.toString().trim().split(" ").length > 2){
+                l = new StringBuilder(" " + l.toString().trim().replace(" ", ", "));
+                l.replace(l.lastIndexOf(", "), l.lastIndexOf(", ") + 1, ", and");
+            }else if(l.toString().trim().split(" ").length > 1){
+                l = new StringBuilder(" " + l.toString().trim().replace(" ", " and "));
+            }
+            return l.toString();
+        }
+    }
 
     public void sendMessage(String s){
         for(Team t: teams.values()){
@@ -377,7 +394,7 @@ public class Arena {
                 Iterator<Player> iterator = t.getPlayers().iterator();
                 while(iterator.hasNext()){
                     Player p = iterator.next();
-                    this.removePlayer(p);
+                    this.removePlayer(p, true);
                 }
             }
         }
@@ -446,11 +463,11 @@ public class Arena {
         }
     }
 
-    public synchronized void removePlayer(Player p){
+    public synchronized void removePlayer(Player p, boolean reloadInven){
         if(this.inProgress()){
             for(Team team: teams.values()){
                 if(team.contains(p)){
-                    ArenaUtils.resetPlayer(p);
+                    ArenaUtils.resetPlayer(p, reloadInven);
                     team.removePlayer(p);
                     sideBar.removePlayer(p, team);
                     if(timeSinceRespawn.containsKey(p))

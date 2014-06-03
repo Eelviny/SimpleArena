@@ -25,13 +25,13 @@ import com.spiny.pvpchoice.main.PVPChoiceAPI;
 
 public class ArenaUtils {
 
-    public static void resetPlayer(final Player p){
+    public static void resetPlayer(final Player p, boolean reloadInven){
         p.setHealth(20);
         p.setFoodLevel(20);
         p.setSaturation(20);
         p.setGameMode(GameMode.SURVIVAL);
         if(SimpleArena.usePvP()) PVPChoiceAPI.setPVPEnabled(p, false);
-        if(PlayerFiles.hasFile(p)) PlayerFiles.loadPlayerInven(p);
+        if(PlayerFiles.hasFile(p) && reloadInven) PlayerFiles.loadPlayerInven(p);
 
         for(PotionEffect effect: p.getActivePotionEffects()){
             p.removePotionEffect(effect.getType());

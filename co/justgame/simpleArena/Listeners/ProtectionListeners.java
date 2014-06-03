@@ -78,7 +78,7 @@ public class ProtectionListeners implements Listener {
         Player p = e.getPlayer();
         Arena a = SimpleArena.getArena(p);
         if(a != null){
-            a.removePlayer(p);
+            a.removePlayer(p, false);
         }
     }
 
@@ -87,7 +87,7 @@ public class ProtectionListeners implements Listener {
         Player p = e.getPlayer();
         Arena a = SimpleArena.getArena(p);
         if(a != null){
-            a.removePlayer(p);
+            a.removePlayer(p, false);
         }
     }
 
@@ -105,7 +105,6 @@ public class ProtectionListeners implements Listener {
 
         if(PlayerFiles.hasFile(p)){
             Bukkit.getScheduler().scheduleSyncDelayedTask(SimpleArena.getInstance(), new Runnable(){
-
                 public void run(){
                     PlayerFiles.loadPlayerInven(p);
                 }
@@ -118,7 +117,7 @@ public class ProtectionListeners implements Listener {
         Player p = e.getEntity();
         if(SimpleArena.inArena(p)){
             Arena a = SimpleArena.getArena(p);
-            a.removePlayer(p);
+            a.removePlayer(p, true);
         }
     }
 }

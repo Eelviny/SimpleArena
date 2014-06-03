@@ -117,15 +117,45 @@ public class SimpleArena extends JavaPlugin {
                             for(Arena a: arenas){
                                 message.append("§8   -"+StringUtils.capitalize(a.getName())+"/n");
                             }
-                            message.append("/n§3For more information on a specific arena use /arena list <Arena>!");
+                            message.append("/n§3For more information on a specific arena use /arena list <Arena> or /arena info <Arena>!");
                             sendMultilineMessage(sender, message.toString());
                         }else{
                             String a = StringUtils.join(args, " ", 1, args.length);
                             Arena arena = SimpleArena.getArena(a);
-                            sendMultilineMessage(sender, arena.toString());
+                            if(arena != null){
+                                StringBuilder message = new StringBuilder("§2"+StringUtils.capitalize(arena.getName())+":/n");
+                                
+                                String players = arena.getPlayersInList();
+                                players = players.isEmpty() ? "§cNone" : players;
+                                message.append("§8   Players in Arena:§3 "+players.trim()+"/n");
+                                
+                                String status = arena.inProgress() ? "Game" : "Queue";
+                                message.append("§8   Status:§3 "+status+"/n");
+                                sendMultilineMessage(sender, message.toString());
+                            }else{
+                                sender.sendMessage(Messages.get("simplearena.command.unknown").replace("%arena%", StringUtils
+                                        .join(args, " ", 1, args.length)));
+                            }
                         }
                     }else{
                         sender.sendMessage(Messages.get("simplearena.command.noperms"));
+                    }
+                }else if(command.equalsIgnoreCase("info")){
+                    if(args.length > 1){
+                        if(sender.hasPermission("simplearena.command.list")){
+                                String a = StringUtils.join(args, " ", 1, args.length);
+                                Arena arena = SimpleArena.getArena(a);
+                                if(arena != null){
+                                    sendMultilineMessage(sender, arena.toString());
+                                }else{
+                                   sender.sendMessage(Messages.get("simplearena.command.unknown").replace("%arena%", StringUtils
+                                           .join(args, " ", 1, args.length)));
+                               }
+                        }else{
+                            sender.sendMessage(Messages.get("simplearena.command.noperms"));
+                        }
+                    }else{
+                        sender.sendMessage(Messages.get("simplearena.command.usage.info"));
                     }
                 }else if(command.equalsIgnoreCase("join")){
                     if(sender.hasPermission("simplearena.command.join")){
@@ -146,7 +176,7 @@ public class SimpleArena extends JavaPlugin {
 
                                 if(pa != null && !pa.getName().equals(arena.getName())){
                                     pa.sendMessage(Messages.get("simplearena.leave.normal").replace("%player%", p.getName()));
-                                    pa.removePlayer(p);
+                                    pa.removePlayer(p, true);
                                 }
 
                                 if(arena.isMaxed()){
@@ -188,7 +218,7 @@ public class SimpleArena extends JavaPlugin {
                             Arena a = SimpleArena.getArena(p);
                             if(a != null){
                                 a.sendMessage(Messages.get("simplearena.leave.normal").replace("%player%", p.getName()));
-                                a.removePlayer(p);
+                                a.removePlayer(p, true);
                             }else{
                                 p.sendMessage(Messages.get("simplearena.command.notin"));
                             }

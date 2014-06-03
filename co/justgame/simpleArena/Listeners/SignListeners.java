@@ -47,7 +47,7 @@ public class SignListeners implements Listener {
                                 Arena pa = SimpleArena.getArena(p);
                                 if(pa != null && !pa.getName().equals(arena.getName())){
                                     pa.sendMessage(Messages.get("simplearena.leave.normal").replace("%player%", p.getName()));
-                                    pa.removePlayer(p);
+                                    pa.removePlayer(p, true);
                                 }
 
                                 if(p.hasPermission("simplearena.join.sign") || e.getPlayer().isOp()){
@@ -57,7 +57,7 @@ public class SignListeners implements Listener {
                                         }else{
                                             arena.sendMessage(Messages.get("simplearena.leave.normal").replace("%player%", p
                                                     .getName()));
-                                            arena.removePlayer(p);
+                                            arena.removePlayer(p, true);
                                         }
                                     }else{
                                         if(!arena.inProgress()){
