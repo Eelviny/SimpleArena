@@ -1,10 +1,14 @@
 package co.justgame.simpleArena.Listeners;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.TNTPrimed;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType.SlotType;
@@ -26,12 +30,10 @@ public class ProtectionListeners implements Listener {
 
     @EventHandler(priority = EventPriority.HIGH)
     public synchronized void teleport(PlayerTeleportEvent e){
-        if(e.getCause().equals(TeleportCause.PLUGIN)){
-            if(!e.getCause().equals(TeleportCause.PLUGIN)){
-                if(SimpleArena.inArena(e.getPlayer())){
-                    e.setCancelled(true);
-                    e.getPlayer().sendMessage(Messages.get("simplearena.ingame.teleport"));
-                }
+        if(!e.getCause().equals(TeleportCause.PLUGIN)){
+            if(SimpleArena.inArena(e.getPlayer())){
+                e.setCancelled(true);
+                e.getPlayer().sendMessage(Messages.get("simplearena.ingame.teleport"));
             }
         }
     }
@@ -49,7 +51,7 @@ public class ProtectionListeners implements Listener {
             e.setCancelled(true);
         }
     }
-
+    
     @EventHandler(priority = EventPriority.HIGH)
     public synchronized void onCommand(PlayerCommandPreprocessEvent e){
         Player p = e.getPlayer();
@@ -59,6 +61,19 @@ public class ProtectionListeners implements Listener {
                     e.setCancelled(true);
                     p.sendMessage(Messages.get("simplearena.ingame.command"));
                 }
+            }
+        }
+    }
+    
+    @EventHandler(priority = EventPriority.HIGH)
+    public synchronized void tntPrime(BlockPlaceEvent e){
+        Player p = e.getPlayer();
+        Block b = e.getBlockPlaced();
+        if(b.getType() == Material.TNT){
+            if(SimpleArena.inArena(p) && SimpleArena.getArena(p).inProgress()){
+                b.setType(Material.AIR);
+                b.getLocation().getWorld().spawn(b.getLocation().add(.5, .5, .5), TNTPrimed.class).setFuseTicks(30);
+                PlayerDeathListener.addTNTDetonator(p, b.getLocation());
             }
         }
     }

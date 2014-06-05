@@ -31,6 +31,7 @@ public class Messages {
         }
 
         setMessage("simplearena.sign.place", "&cYou may not place a sign that begins with the line \"Arena\"!");
+        setMessage("simplearena.sign.tp", "&cYou do not have permission to join an arena in the %world% world!");
         setMessage("simplearena.sign.nothing", "&c%text% does not correspond to any known Arena or Class!");
 
         setMessage("simplearena.ingame.teleport", "&8[Arena] &cYou may not teleport while in an Arena!");
@@ -77,6 +78,7 @@ public class Messages {
         setMessage("simplearena.death.default", "&8[Arena] &9%killer% killed %killed%!");
         setMessage("simplearena.death.sword", "&8[Arena] &9%killer% cut down %killed% using a Sword!");
         setMessage("simplearena.death.axe", "&8[Arena] &9%killer% smashed %killed% with an Axe!");
+        setMessage("simplearena.death.spear", "&8[Arena] &9%killer% ran %killed% through with a Spear!");
         setMessage("simplearena.death.potion", "&8[Arena] &9%killer% killed %killed% with Magic!");
         setMessage("simplearena.death.bow", "&8[Arena] &9%killer% shot %killed% with a deadly Arrow!");
         setMessage("simplearena.death.sniper", "&8[Arena] &9%killer% snipered %killed%!");
@@ -85,6 +87,9 @@ public class Messages {
         setMessage("simplearena.death.starve", "&8[Arena] &9%killed% starved while fighting %killer%!");
         setMessage("simplearena.death.lava", "&8[Arena] &9%killed% burned in lava while fighting %killer%!");
         setMessage("simplearena.death.fire", "&8[Arena] &9%killed% burned to a crisp while fighting %killer%!");
+        setMessage("simplearena.death.wither", "&8[Arena] &9%killed% withered away while fighting %killer%!");
+        setMessage("simplearena.death.tnt", "&8[Arena] &9%killed% was blown to bits by %killer%!");
+        setMessage("simplearena.death.tntself", "&8[Arena] &9%killer% was blown to bits by some poorly placed TNT!");
 
         setMessage("simplearena.death.default2", "&8[Arena] &9%killed% died!");
         setMessage("simplearena.death.drown2", "&8[Arena] &9%killed% drowned!");
@@ -92,6 +97,15 @@ public class Messages {
         setMessage("simplearena.death.starve2", "&8[Arena] &9%killed% starved!");
         setMessage("simplearena.death.lava2", "&8[Arena] &9%killed% burned in lava!");
         setMessage("simplearena.death.fire2", "&8[Arena] &9%killed% burned to a crisp!");
+        setMessage("simplearena.death.wither2", "&8[Arena] &9%killed% withered away!");
+        setMessage("simplearena.death.zombie", "&8[Arena] &9%killed%'s brain looked tasty to a Zombie!");
+        setMessage("simplearena.death.spider", "&8[Arena] &9%killed% was eaten by a giant Spider!");
+        setMessage("simplearena.death.skele", "&8[Arena] &9%killed% was shot by a Skeleton!");
+        setMessage("simplearena.death.enderman", "&8[Arena] &9%killed% invoked an Enderman's wrath!");
+        setMessage("simplearena.death.fireball", "&8[Arena] &9%killed% was incinerated by a Fireball!");
+        setMessage("simplearena.death.creeper", "&8[Arena] &9%killed% was blown to bits by a Creeper!");
+        setMessage("simplearena.death.witch", "&8[Arena] &9%killed% was killed by a Witch!");
+        setMessage("simplearena.death.witherskele", "&8[Arena] &9%killed% was killed by a Wither!");
 
         try{
             FileConfiguration config = YamlConfiguration.loadConfiguration(Messages);

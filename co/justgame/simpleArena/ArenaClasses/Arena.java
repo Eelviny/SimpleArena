@@ -12,6 +12,7 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerTeleportEvent;
 
 import co.justgame.simpleArena.ClassClasses.Class;
 import co.justgame.simpleArena.Display.SideBarDisplay;
@@ -186,12 +187,15 @@ public class Arena {
 
             for(Team team: teams.values()){
                 for(Player p: team.getPlayers()){
-                    PlayerFiles.savePlayerInven(p);
-                    ArenaUtils.resetPlayer(this, p, team);
-
+                    
+                    Location original = p.getLocation();
+                    
                     if(p.isInsideVehicle()) p.leaveVehicle();
-
-                    p.teleport(team.getSpawn().clone().add(.5, 0, .5));
+                        p.teleport(team.getSpawn().clone().add(.5, 0, .5));
+                    
+                    PlayerFiles.savePlayerInven(p, original);
+                    ArenaUtils.resetPlayer(this, p, team);
+   
                     this.setRespawn(p);
                 }
             }
@@ -245,7 +249,7 @@ public class Arena {
                 for(Player p: team.getPlayers()){
                     p.setGameMode(GameMode.SURVIVAL);
                     if(SimpleArena.usePvPChoice) PVPChoiceAPI.setPVPEnabled(p, false);
-                    if(PlayerFiles.hasFile(p)) 
+                    if(PlayerFiles.hasFile(p) && p.isOnline()) 
                         if(threading)
                             PlayerFiles.loadPlayerInven(p);
                         else
@@ -441,12 +445,21 @@ public class Arena {
 
     public synchronized void addPlayer(Player p){
         Team team = getSmallestTeam();
-        team.addPlayer(p);
-        sideBar.addPlayer(p, team);
-
-        if(this.getSize() == 2){
-            startCountDown();
+        PlayerTeleportEvent event = new PlayerTeleportEvent(p, p.getLocation(), team.getSpawn());
+        SimpleArena.getInstance().getServer().getPluginManager().callEvent(event);
+        
+        if(!event.isCancelled()){
+            team.addPlayer(p);
+            sideBar.addPlayer(p, team);
+    
+            if(this.getSize() == 2){
+                startCountDown();
+            }
+        }else{
+            p.sendMessage(Messages.get("simplearena.sign.tp").replace("%world%", 
+                    StringUtils.capitalize(team.getSpawn().getWorld().getName().toLowerCase())));
         }
+       
     }
     
     public synchronized boolean oneTeamIsLeft(){
@@ -467,7 +480,8 @@ public class Arena {
         if(this.inProgress()){
             for(Team team: teams.values()){
                 if(team.contains(p)){
-                    ArenaUtils.resetPlayer(p, reloadInven);
+                    if(p.isOnline())
+                        ArenaUtils.resetPlayer(p, reloadInven);
                     team.removePlayer(p);
                     sideBar.removePlayer(p, team);
                     if(timeSinceRespawn.containsKey(p))

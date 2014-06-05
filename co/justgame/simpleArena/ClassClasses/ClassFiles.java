@@ -95,7 +95,7 @@ public class ClassFiles {
                     }
                     int lookup = 0;
                     for(int i = 0; i < 3; i++){
-                        if(isArmor(items.get(lookup))){
+                        if(items.size() >= i+1 && isArmor(items.get(lookup))){
                             armor.add(items.get(lookup));
                             items.remove(lookup);
                         }else{

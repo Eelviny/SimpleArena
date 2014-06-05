@@ -20,9 +20,8 @@ import co.justgame.simpleArena.Main.SimpleArena;
 
 public class PlayerFiles {
 
-    public synchronized static void savePlayerInven(final Player p){
+    public synchronized static void savePlayerInven(final Player p, final Location loc){
 
-        Location loc = p.getLocation();
         writeFile(SimpleArena.getUUID(p), p.getHealth(), p.getFoodLevel(), p.getLevel(), loc.getX(), loc.getY(), loc.getZ(), loc
                 .getWorld().getName(), p.getActivePotionEffects(), p.getInventory().getContents(), p.getInventory()
                 .getArmorContents());
@@ -67,8 +66,12 @@ public class PlayerFiles {
     private synchronized static void setPlayer(final Player p, final Double health, final int hunger, final int levels,
             final Double X, final Double Y, final Double Z, final String world, final Collection<PotionEffect> potionEffects,
             final ItemStack[] inven, final ItemStack[] armor){
-
-                p.setHealth(health);
+        
+                if(health < 21 && health > -1)
+                    p.setHealth(health);
+                else
+                    p.setHealth(20.0);
+                
                 p.setFoodLevel(hunger);
                 p.setLevel(levels);
                 Location loc = new Location(Bukkit.getWorld(world), X, Y, Z);
