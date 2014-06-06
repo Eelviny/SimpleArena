@@ -65,13 +65,13 @@ public class ProtectionListeners implements Listener {
         }
     }
     
-    @EventHandler(priority = EventPriority.HIGH)
+    @EventHandler(priority = EventPriority.LOWEST)
     public synchronized void tntPrime(BlockPlaceEvent e){
         Player p = e.getPlayer();
         Block b = e.getBlockPlaced();
         if(b.getType() == Material.TNT){
             if(SimpleArena.inArena(p) && SimpleArena.getArena(p).inProgress()){
-                b.setType(Material.AIR);
+                e.setCancelled(true);
                 b.getLocation().getWorld().spawn(b.getLocation().add(.5, .5, .5), TNTPrimed.class).setFuseTicks(30);
                 PlayerDeathListener.addTNTDetonator(p, b.getLocation());
             }

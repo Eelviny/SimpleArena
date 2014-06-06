@@ -13,6 +13,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerTeleportEvent;
+import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 
 import co.justgame.simpleArena.ClassClasses.Class;
 import co.justgame.simpleArena.Display.SideBarDisplay;
@@ -191,7 +192,7 @@ public class Arena {
                     Location original = p.getLocation();
                     
                     if(p.isInsideVehicle()) p.leaveVehicle();
-                        p.teleport(team.getSpawn().clone().add(.5, 0, .5));
+                        p.teleport(team.getSpawn().clone().add(.5, 0, .5), TeleportCause.PLUGIN);
                     
                     PlayerFiles.savePlayerInven(p, original);
                     ArenaUtils.resetPlayer(this, p, team);

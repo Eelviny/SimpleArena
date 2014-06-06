@@ -12,6 +12,7 @@ import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -75,7 +76,7 @@ public class PlayerFiles {
                 p.setFoodLevel(hunger);
                 p.setLevel(levels);
                 Location loc = new Location(Bukkit.getWorld(world), X, Y, Z);
-                p.teleport(loc);
+                p.teleport(loc, TeleportCause.PLUGIN);
                 for(PotionEffect effect: p.getActivePotionEffects()){
                     p.removePotionEffect(effect.getType());
                 }

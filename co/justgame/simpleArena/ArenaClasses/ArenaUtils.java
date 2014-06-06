@@ -10,6 +10,7 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Skeleton;
+import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
@@ -94,20 +95,15 @@ public class ArenaUtils {
         EntityEquipment ee = s.getEquipment();
         ee.setArmorContents(p.getInventory().getArmorContents());
         ee.setItemInHand(p.getItemInHand());
+        s.setHealth(0.0);
 
         loc.getWorld().playSound(loc, Sound.HURT_FLESH, 2F, 1F);
         loc.getWorld().playEffect(loc, Effect.SMOKE, 10, 20);
-        Bukkit.getScheduler().scheduleSyncDelayedTask(SimpleArena.getInstance(), new Runnable(){
-
-            public void run(){
-                s.setHealth(0.0);
-            }
-        }, 3L);
     }
 
     public static void respawnPlayer(Arena a, final Player p){
         ArenaUtils.playDeathAnimation(p);
-        p.teleport(a.getTeam(p).getSpawn().clone().add(.5, 0, .5));
+        p.teleport(a.getTeam(p).getSpawn().clone().add(.5, 0, .5), TeleportCause.PLUGIN);
         p.setHealth(20);
         p.setFoodLevel(20);
         p.setSaturation(20);
