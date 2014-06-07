@@ -135,6 +135,10 @@ public class PlayerDeathListener implements Listener {
     public static synchronized void addTNTDetonator(Player p, Location loc){
         tntDetonators.put(p, loc);
     }
+    
+    public static synchronized void resetTNTDetonators(){
+        tntDetonators = new HashMap<Player, Location>();
+    }
 
     public synchronized void startTimer(final int time){
         Bukkit.getScheduler().scheduleSyncRepeatingTask(SimpleArena.getInstance(), new Runnable(){

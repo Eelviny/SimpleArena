@@ -266,6 +266,7 @@ public class Arena {
             inProgress = false;
             EasterEgg = false;
             timeSinceRespawn = new LinkedHashMap<Player, Integer>();
+            PlayerDeathListener.resetTNTDetonators();
 
         }catch (Exception e){
             e.printStackTrace();

@@ -72,7 +72,9 @@ public class ProtectionListeners implements Listener {
         if(b.getType() == Material.TNT){
             if(SimpleArena.inArena(p) && SimpleArena.getArena(p).inProgress()){
                 e.setCancelled(true);
-                b.getLocation().getWorld().spawn(b.getLocation().add(.5, .5, .5), TNTPrimed.class).setFuseTicks(30);
+                TNTPrimed tnt = b.getLocation().getWorld().spawn(b.getLocation().add(.5, .5, .5), TNTPrimed.class);
+                tnt.setYield(1.4f);
+                tnt.setFuseTicks(20);
                 PlayerDeathListener.addTNTDetonator(p, b.getLocation());
             }
         }
