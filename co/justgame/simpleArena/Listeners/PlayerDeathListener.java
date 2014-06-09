@@ -181,9 +181,7 @@ public class PlayerDeathListener implements Listener {
         
         for(PotionEffect pe : p.getActivePotionEffects()){
             if(pe.getType().equals(PotionEffectType.DAMAGE_RESISTANCE)){
-                for(int l = pe.getAmplifier(); l > 0; l--){
-                    damage -= damage * .2;
-                }
+                damage *= Math.pow(.8, pe.getAmplifier()+1);
             }
         }
                 
