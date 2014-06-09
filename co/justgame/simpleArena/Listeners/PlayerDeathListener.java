@@ -3,6 +3,7 @@ package co.justgame.simpleArena.Listeners;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -18,6 +19,8 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 import co.justgame.simpleArena.ArenaClasses.Arena;
 import co.justgame.simpleArena.ArenaClasses.ArenaUtils;
@@ -62,7 +65,7 @@ public class PlayerDeathListener implements Listener {
     }
     
     private void checkForDeathAndSubtractPoints(Player damagee, Entity damager, EntityDamageByEntityEvent e){
-        if(damagee.getHealth() - getDamageReduced(damagee, e.getDamage()) < .5){
+        if(damagee.getHealth() - getDamageReduced(damagee, e.getDamage(), e) < .5){
             e.setCancelled(true);
             Arena a = SimpleArena.getArena(damagee);
             a.addPoints(damagee, 1, false);
@@ -100,7 +103,7 @@ public class PlayerDeathListener implements Listener {
                         lastDamager.put(p, closest);
                     }
                     
-                    if(p.getHealth() - getDamageReduced(p, e.getDamage()) < .5){
+                    if(p.getHealth() - getDamageReduced(p, e.getDamage(), e) < .5){
                         e.setCancelled(true);
                         Arena a = SimpleArena.getArena(p);
                         a.addPoints(p, 1, false);
@@ -165,14 +168,24 @@ public class PlayerDeathListener implements Listener {
         }, 1, 20L);
     }
     
-    static double getDamageReduced(Player p, double damage)
+    static double getDamageReduced(Player p, double damage, EntityDamageEvent ev)
     {
+        
         PlayerInventory inv = p.getInventory();
         ItemStack helmet = inv.getHelmet();
         ItemStack chest = inv.getChestplate();
         ItemStack pants = inv.getLeggings();
         ItemStack boots = inv.getBoots();
         ItemStack[] armor = {helmet, chest, pants, boots};
+        
+        
+        for(PotionEffect pe : p.getActivePotionEffects()){
+            if(pe.getType().equals(PotionEffectType.DAMAGE_RESISTANCE)){
+                for(int l = pe.getAmplifier(); l > 0; l--){
+                    damage -= damage * .2;
+                }
+            }
+        }
                 
         double dr = 0.0;
  
@@ -220,10 +233,15 @@ public class PlayerDeathListener implements Listener {
             if(it != null){
                 Map<Enchantment, Integer> em = it.getEnchantments();
                 for(Enchantment e: em.keySet()){
-                    if(e == Enchantment.PROTECTION_ENVIRONMENTAL){
-                        int level = em.get(e);
-                        if(level <= 3) i += level;
-                        else i += level + 1; 
+                    if(e == Enchantment.PROTECTION_ENVIRONMENTAL ||
+                       e == Enchantment.PROTECTION_EXPLOSIONS && ev.getCause() == DamageCause.ENTITY_EXPLOSION ||
+                       e == Enchantment.PROTECTION_FALL && ev.getCause() == DamageCause.FALL ||
+                       e == Enchantment.PROTECTION_PROJECTILE && ev.getCause() == DamageCause.PROJECTILE ||
+                       e == Enchantment.PROTECTION_FIRE && ev.getCause() == DamageCause.FIRE)
+                    {
+                            int level = em.get(e);
+                            if(level <= 3) i += level;
+                            else i += level + 1; 
                     }
                 }
             }
