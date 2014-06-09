@@ -2,9 +2,11 @@ package co.justgame.simpleArena.Listeners;
 
 import java.util.HashMap;
 import java.util.Iterator;
-
+import java.util.Map;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
@@ -14,6 +16,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 
 import co.justgame.simpleArena.ArenaClasses.Arena;
 import co.justgame.simpleArena.ArenaClasses.ArenaUtils;
@@ -58,7 +62,7 @@ public class PlayerDeathListener implements Listener {
     }
     
     private void checkForDeathAndSubtractPoints(Player damagee, Entity damager, EntityDamageByEntityEvent e){
-        if(damagee.getHealth() - e.getDamage() <= 0){
+        if(damagee.getHealth() - getDamageReduced(damagee, e.getDamage()) < .5){
             e.setCancelled(true);
             Arena a = SimpleArena.getArena(damagee);
             a.addPoints(damagee, 1, false);
@@ -96,14 +100,16 @@ public class PlayerDeathListener implements Listener {
                         lastDamager.put(p, closest);
                     }
                     
-                    if(p.getHealth() - e.getDamage() <= 0){
+                    if(p.getHealth() - getDamageReduced(p, e.getDamage()) < .5){
                         e.setCancelled(true);
                         Arena a = SimpleArena.getArena(p);
                         a.addPoints(p, 1, false);
 
                         if(lastDamager.containsKey(p)){
                             a.sendMessage(DeathMessages.getDeathMessage(p, lastDamager.get(p), e)); 
-                            a.addPoints(lastDamager.get(p), 1, true);
+                            if(!lastDamager.get(p).equals(p))
+                                a.addPoints(lastDamager.get(p), 1, true);
+                            
                             lastDamager.remove(p);
                             timeSinceDamage.remove(p);
                         }else{
@@ -157,6 +163,79 @@ public class PlayerDeathListener implements Listener {
                 }
             }
         }, 1, 20L);
+    }
+    
+    static double getDamageReduced(Player p, double damage)
+    {
+        PlayerInventory inv = p.getInventory();
+        ItemStack helmet = inv.getHelmet();
+        ItemStack chest = inv.getChestplate();
+        ItemStack pants = inv.getLeggings();
+        ItemStack boots = inv.getBoots();
+        ItemStack[] armor = {helmet, chest, pants, boots};
+                
+        double dr = 0.0;
+ 
+        if (helmet != null)
+        {
+            if (helmet.getType() == Material.LEATHER_HELMET) dr = dr + 0.04;
+            else if (helmet.getType() == Material.GOLD_HELMET) dr = dr + 0.08;
+            else if (helmet.getType() == Material.CHAINMAIL_HELMET) dr = dr + 0.08;
+            else if (helmet.getType() == Material.IRON_HELMET) dr = dr + 0.08;
+            else if (helmet.getType() == Material.DIAMOND_HELMET) dr = dr + 0.12;
+            
+        }
+ 
+        if (boots != null)
+        {
+            if (boots.getType() == Material.LEATHER_BOOTS) dr = dr + 0.04;
+            else if (boots.getType() == Material.GOLD_BOOTS) dr = dr + 0.04;
+            else if (boots.getType() == Material.CHAINMAIL_BOOTS) dr = dr + 0.04;
+            else if (boots.getType() == Material.IRON_BOOTS) dr = dr + 0.08;
+            else if (boots.getType() == Material.DIAMOND_BOOTS) dr = dr + 0.12;
+        }
+ 
+        if (pants != null)
+        {
+            if (pants.getType() == Material.LEATHER_LEGGINGS) dr = dr + 0.08;
+            else if (pants.getType() == Material.GOLD_LEGGINGS) dr = dr + 0.12;
+            else if (pants.getType() == Material.CHAINMAIL_LEGGINGS) dr = dr + 0.16;
+            else if (pants.getType() == Material.IRON_LEGGINGS) dr = dr + 0.20;
+            else if (pants.getType() == Material.DIAMOND_LEGGINGS) dr = dr + 0.24;
+        }
+ 
+        if (chest != null)
+        {
+            if (chest.getType() == Material.LEATHER_CHESTPLATE) dr = dr + 0.12;
+            else if (chest.getType() == Material.GOLD_CHESTPLATE) dr = dr + 0.20;
+            else if (chest.getType() == Material.CHAINMAIL_CHESTPLATE) dr = dr + 0.20;
+            else if (chest.getType() == Material.IRON_CHESTPLATE) dr = dr + 0.24;
+            else if (chest.getType() == Material.DIAMOND_CHESTPLATE) dr = dr + 0.32;
+        }
+        
+        damage -= damage * dr;
+        
+        int i = 0;
+        for(ItemStack it: armor){
+            if(it != null){
+                Map<Enchantment, Integer> em = it.getEnchantments();
+                for(Enchantment e: em.keySet()){
+                    if(e == Enchantment.PROTECTION_ENVIRONMENTAL){
+                        int level = em.get(e);
+                        if(level <= 3) i += level;
+                        else i += level + 1; 
+                    }
+                }
+            }
+        }
+        i /= 2;
+        if(i > 19) i = 19;
+        int red = (i * 4) / 100;
+        
+        damage -= damage * red;
+        
+        return damage;
+        
     }
 
 }

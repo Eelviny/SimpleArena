@@ -46,6 +46,8 @@ public class Arena {
     private boolean respawn = true;
     private int limit = 300;
     private int pointsLimit = 20;
+    private float tntStrength = 2f;
+    private int tntFuse = 20;
     private ArrayList<Location> spawnPoints;
     private ArrayList<String> defaultClasses;
     Listener listener = null;
@@ -61,7 +63,7 @@ public class Arena {
     int alertCounter = 30;
 
     public Arena(String name, String startMessage, int numberOfTeams, boolean woolhelmet, int players, int kitTime, GameMode gm, int delayTime,
-            int pointTime, boolean respawn, int limit, int pointsLimit, ArrayList<Location> spawnPoints,
+            int pointTime, boolean respawn, int limit, int pointsLimit, double tntStrength, int tntFuse, ArrayList<Location> spawnPoints,
             ArrayList<String> defaultClasses){
         this.name = name;
         this.startMessage = startMessage;
@@ -77,6 +79,8 @@ public class Arena {
         this.limit = limit;
         gameCounter = limit;
         this.pointsLimit = pointsLimit;
+        this.tntStrength = (float) tntStrength;
+        this.tntFuse = tntFuse;
         this.defaultClasses = defaultClasses;
         this.spawnPoints = spawnPoints;
         this.sideBar = new SideBarDisplay(queueCounter, gameCounter);
@@ -150,6 +154,14 @@ public class Arena {
 
     public int getkitTime(){
         return kitTime;
+    }
+    
+    public int getTNTFuse(){
+        return tntFuse;
+    }
+    
+    public float getTNTStrength(){
+        return tntStrength;
     }
     
     public boolean giveWoolHelmets(){

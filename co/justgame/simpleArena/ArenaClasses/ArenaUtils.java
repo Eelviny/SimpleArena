@@ -69,7 +69,7 @@ public class ArenaUtils {
         p.getInventory().clear();
         p.getInventory().setArmorContents(new ItemStack[4]);
         if(a.giveWoolHelmets())
-            p.getInventory().setHelmet(new ItemStack(Material.WOOL, 1, (short) Color.getWoolColor(t.getColor())));
+            p.getInventory().setHelmet(new ItemStack(Material.STAINED_GLASS, 1, (short) Color.getWoolColor(t.getColor())));
         
         Class clazz = t.getDefualtClass();
         if(clazz != null){

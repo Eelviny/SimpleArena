@@ -5,6 +5,7 @@ import java.util.Collection;
 
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.Bukkit;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
@@ -48,6 +49,12 @@ public class SideBarDisplay {
     public void decrementCounter(int i){
         if(State.equals(state.Queue)){
             que.setDisplayName("§aGame in:§f "+i);
+            if(i < 4){
+                for(Player p: users){
+                    if(i > 0) p.playSound(p.getLocation(), Sound.NOTE_PIANO, 5, (float)Math.pow(2.0, ((double)7 - 12.0) / 12.0));
+                    else p.playSound(p.getLocation(), Sound.NOTE_PIANO, 5, (float)Math.pow(2.0, ((double)12 - 12.0) / 12.0)); 
+                }
+            }
         }
     }
 
@@ -55,6 +62,13 @@ public class SideBarDisplay {
         if(State.equals(state.Game)){
             if(gameTime >= 0){
                 points.setDisplayName("§aTime left:§f "+i);
+                
+                if(i < 4){
+                    for(Player p: users){
+                        if(i > 0) p.playSound(p.getLocation(), Sound.NOTE_PIANO, 5, (float)Math.pow(2.0, ((double)7 - 12.0) / 12.0));
+                        else p.playSound(p.getLocation(), Sound.NOTE_PIANO, 5, (float)Math.pow(2.0, ((double)12 - 12.0) / 12.0)); 
+                    }
+                }
             }
         }
     }

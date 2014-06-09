@@ -43,6 +43,8 @@ public class ArenaFiles {
                 config.set("gamemode", "ADVENTURE");
                 config.set("time-limit", 300);
                 config.set("points-limit", 25);
+                config.set("tnt-strength", 2);
+                config.set("tnt-fuse", 20);
 
                 config.set("spawn.team1.x", 0);
                 config.set("spawn.team1.y", 64);
@@ -110,7 +112,8 @@ public class ArenaFiles {
                             config.getBoolean("wool-helmets", true),config.getInt("players", 2), config.getInt("class-time", 20),
                             GameMode.valueOf(config.getString("gamemode", "ADVENTURE")), config.getInt("delay-time", 20),
                             config.getInt("point-on-death-time", 30), config.getBoolean("respawn-on-death", true),
-                            config.getInt("time-limit", 300), config.getInt("points-limit", 25), spawnPoints, defaultClasses);
+                            config.getInt("time-limit", 300), config.getInt("points-limit", 25),config.getDouble("tnt-strength", 2.0)
+                            , config.getInt("tntn-fuse", 20), spawnPoints, defaultClasses);
                     arenas.add(arena);
                 }
             }catch (IOException e){
