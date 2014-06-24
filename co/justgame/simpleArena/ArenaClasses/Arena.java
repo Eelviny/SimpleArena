@@ -15,6 +15,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 
+import com.spiny.pvpchoice.main.PVPChoice;
+
 import co.justgame.simpleArena.ClassClasses.Class;
 import co.justgame.simpleArena.Display.SideBarDisplay;
 import co.justgame.simpleArena.Listeners.PlayerDeathListener;
@@ -24,8 +26,6 @@ import co.justgame.simpleArena.Resources.Messages;
 import co.justgame.simpleArena.Teams.Team;
 import co.justgame.simpleArena.Teams.Color.Color;
 import co.justgame.simpleArena.Teams.Color.Color.color;
-
-import com.spiny.pvpchoice.main.PVPChoiceAPI;
 
 public class Arena {
 
@@ -62,9 +62,9 @@ public class Arena {
     int gameCounter = limit;
     int alertCounter = 30;
 
-    public Arena(String name, String startMessage, int numberOfTeams, boolean woolhelmet, int players, int kitTime, GameMode gm, int delayTime,
-            int pointTime, boolean respawn, int limit, int pointsLimit, double tntStrength, int tntFuse, ArrayList<Location> spawnPoints,
-            ArrayList<String> defaultClasses){
+    public Arena(String name, String startMessage, int numberOfTeams, boolean woolhelmet, int players, int kitTime, GameMode gm,
+            int delayTime, int pointTime, boolean respawn, int limit, int pointsLimit, double tntStrength, int tntFuse,
+            ArrayList<Location> spawnPoints, ArrayList<String> defaultClasses){
         this.name = name;
         this.startMessage = startMessage;
         this.numberOfTeams = numberOfTeams;
@@ -92,38 +92,31 @@ public class Arena {
         }
         sideBar.addSlots(teams.values());
     }
+
     @Override
     public String toString(){
-        StringBuilder b = new StringBuilder( "§2"+StringUtils.capitalize(name)+":/n"
-                                           + "§8   message-on-start:§r "+startMessage+"/n"
-                                           + "§8   teams:§3 "+numberOfTeams+"/n"
-                                           + "§8   players:§3 "+players+"/n"
-                                           + "§8   wool-helmets:§3 "+woolhelmet+"/n"
-                                           + "§8   gamemode:§3 "+StringUtils.capitalize(defaultGamemode.toString().toLowerCase())+"/n"
-                                           + "§8   delay-time:§3 "+delayTime+"/n"
-                                           + "§8   kit-time:§3 "+kitTime+"/n"
-                                           + "§8   time-limit:§3 "+limit+"/n"
-                                           + "§8   points-limit:§3 "+pointsLimit+"/n"
-                                           + "§8   respawn:§3 "+respawn+"/n"
-                                           + "§8   point-on-death-time:§3 "+pointTime+"/n");
-        for(int i = 0; i < numberOfTeams;i++){
+        StringBuilder b = new StringBuilder("§2" + StringUtils.capitalize(name) + ":/n" + "§8   message-on-start:§r "
+                + startMessage + "/n" + "§8   teams:§3 " + numberOfTeams + "/n" + "§8   players:§3 " + players + "/n"
+                + "§8   wool-helmets:§3 " + woolhelmet + "/n" + "§8   gamemode:§3 "
+                + StringUtils.capitalize(defaultGamemode.toString().toLowerCase()) + "/n" + "§8   delay-time:§3 " + delayTime
+                + "/n" + "§8   kit-time:§3 " + kitTime + "/n" + "§8   time-limit:§3 " + limit + "/n" + "§8   points-limit:§3 "
+                + pointsLimit + "/n" + "§8   respawn:§3 " + respawn + "/n" + "§8   point-on-death-time:§3 " + pointTime + "/n");
+        for(int i = 0; i < numberOfTeams; i++){
             Location loc = spawnPoints.get(i);
-            b.append("§b  Team "+i+":/n"
-                   + "§8         spawn point:/n"
-                   + "§7             X:§3 "+loc.getX()+"/n"
-                   + "§7             Y:§3 "+loc.getY()+"/n"
-                   + "§7             Z:§3 "+loc.getZ()+"/n"
-                   + "§7             World:§3 "+StringUtils.capitalize(loc.getWorld().getName().toLowerCase())+"/n"
-                   + "§8         default class:§3 "+defaultClasses.get(i)+"/n");
+            b.append("§b  Team " + i + ":/n" + "§8         spawn point:/n" + "§7             X:§3 " + loc.getX() + "/n"
+                    + "§7             Y:§3 " + loc.getY() + "/n" + "§7             Z:§3 " + loc.getZ() + "/n"
+                    + "§7             World:§3 " + StringUtils.capitalize(loc.getWorld().getName().toLowerCase()) + "/n"
+                    + "§8         default class:§3 " + defaultClasses.get(i) + "/n");
         }
         return b.toString();
     }
+
     public String getPlayersInList(){
-        synchronized(teams){
+        synchronized (teams){
             StringBuilder l = new StringBuilder();
             for(Team t: teams.values()){
                 for(Player p: t.getPlayers()){
-                    l.append(p.getName()+" ");
+                    l.append(p.getName() + " ");
                 }
             }
             if(l.toString().trim().split(" ").length > 2){
@@ -155,15 +148,15 @@ public class Arena {
     public int getkitTime(){
         return kitTime;
     }
-    
+
     public int getTNTFuse(){
         return tntFuse;
     }
-    
+
     public float getTNTStrength(){
         return tntStrength;
     }
-    
+
     public boolean giveWoolHelmets(){
         return woolhelmet;
     }
@@ -200,15 +193,15 @@ public class Arena {
 
             for(Team team: teams.values()){
                 for(Player p: team.getPlayers()){
-                    
+
                     Location original = p.getLocation();
-                    
+
                     if(p.isInsideVehicle()) p.leaveVehicle();
-                        p.teleport(team.getSpawn().clone().add(.5, 0, .5), TeleportCause.PLUGIN);
-                    
+                    p.teleport(team.getSpawn().clone().add(.5, 0, .5), TeleportCause.PLUGIN);
+
                     PlayerFiles.savePlayerInven(p, original);
                     ArenaUtils.resetPlayer(this, p, team);
-   
+
                     this.setRespawn(p);
                 }
             }
@@ -261,12 +254,11 @@ public class Arena {
             for(Team team: teams.values()){
                 for(Player p: team.getPlayers()){
                     p.setGameMode(GameMode.SURVIVAL);
-                    if(SimpleArena.usePvPChoice) PVPChoiceAPI.setPVPEnabled(p, false);
-                    if(PlayerFiles.hasFile(p) && p.isOnline()) 
-                        if(threading)
-                            PlayerFiles.loadPlayerInven(p);
-                        else
-                            PlayerFiles.loadPlayerInvenWithoutThreading(p);
+                    if(SimpleArena.usePvPChoice) PVPChoice.setPVPEnabled(p, false);
+                    if(PlayerFiles.hasFile(p) && p.isOnline()) if(threading)
+                        PlayerFiles.loadPlayerInven(p);
+                    else
+                        PlayerFiles.loadPlayerInvenWithoutThreading(p);
                 }
                 team.resetScore();
                 team.clearTeam();
@@ -461,21 +453,21 @@ public class Arena {
         Team team = getSmallestTeam();
         PlayerTeleportEvent event = new PlayerTeleportEvent(p, p.getLocation(), team.getSpawn());
         SimpleArena.getInstance().getServer().getPluginManager().callEvent(event);
-        
+
         if(!event.isCancelled()){
             team.addPlayer(p);
             sideBar.addPlayer(p, team);
-    
+
             if(this.getSize() == 2){
                 startCountDown();
             }
         }else{
-            p.sendMessage(Messages.get("simplearena.sign.tp").replace("%world%", 
-                    StringUtils.capitalize(team.getSpawn().getWorld().getName().toLowerCase())));
+            p.sendMessage(Messages.get("simplearena.sign.tp").replace("%world%", StringUtils.capitalize(team.getSpawn()
+                    .getWorld().getName().toLowerCase())));
         }
-       
+
     }
-    
+
     public synchronized boolean oneTeamIsLeft(){
         int i = 0;
         for(Team team: teams.values()){
@@ -494,12 +486,10 @@ public class Arena {
         if(this.inProgress()){
             for(Team team: teams.values()){
                 if(team.contains(p)){
-                    if(p.isOnline())
-                        ArenaUtils.resetPlayer(p, reloadInven);
+                    if(p.isOnline()) ArenaUtils.resetPlayer(p, reloadInven);
                     team.removePlayer(p);
                     sideBar.removePlayer(p, team);
-                    if(timeSinceRespawn.containsKey(p))
-                        timeSinceRespawn.remove(p);
+                    if(timeSinceRespawn.containsKey(p)) timeSinceRespawn.remove(p);
                 }
             }
         }else{
@@ -507,8 +497,7 @@ public class Arena {
                 if(team.contains(p)){
                     team.removePlayer(p);
                     sideBar.removePlayer(p, team);
-                    if(timeSinceRespawn.containsKey(p))
-                        timeSinceRespawn.remove(p);
+                    if(timeSinceRespawn.containsKey(p)) timeSinceRespawn.remove(p);
                 }
             }
             if(this.getSize() >= 2){

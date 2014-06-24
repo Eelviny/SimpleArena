@@ -39,20 +39,22 @@ public class SideBarDisplay {
         que.setDisplaySlot(DisplaySlot.SIDEBAR);
         points.setDisplaySlot(DisplaySlot.SIDEBAR);
         this.waitTime = waitTime;
-        que.setDisplayName("§aGame in:§f "+waitTime);
+        que.setDisplayName("§aGame in:§f " + waitTime);
         this.gameTime = gameTime;
         if(gameTime > 0){
-           points.setDisplayName("§aTime left:§f "+gameTime);
+            points.setDisplayName("§aTime left:§f " + gameTime);
         }
     }
 
     public void decrementCounter(int i){
         if(State.equals(state.Queue)){
-            que.setDisplayName("§aGame in:§f "+i);
+            que.setDisplayName("§aGame in:§f " + i);
             if(i < 4){
                 for(Player p: users){
-                    if(i > 0) p.playSound(p.getLocation(), Sound.NOTE_PIANO, 5, (float)Math.pow(2.0, ((double)7 - 12.0) / 12.0));
-                    else p.playSound(p.getLocation(), Sound.NOTE_PIANO, 5, (float)Math.pow(2.0, ((double)12 - 12.0) / 12.0)); 
+                    if(i > 0)
+                        p.playSound(p.getLocation(), Sound.NOTE_PIANO, 5, (float) Math.pow(2.0, ((double) 7 - 12.0) / 12.0));
+                    else
+                        p.playSound(p.getLocation(), Sound.NOTE_PIANO, 5, (float) Math.pow(2.0, ((double) 12 - 12.0) / 12.0));
                 }
             }
         }
@@ -61,12 +63,14 @@ public class SideBarDisplay {
     public void decrementTimeCounter(int i){
         if(State.equals(state.Game)){
             if(gameTime >= 0){
-                points.setDisplayName("§aTime left:§f "+i);
-                
+                points.setDisplayName("§aTime left:§f " + i);
+
                 if(i < 4){
                     for(Player p: users){
-                        if(i > 0) p.playSound(p.getLocation(), Sound.NOTE_PIANO, 5, (float)Math.pow(2.0, ((double)7 - 12.0) / 12.0));
-                        else p.playSound(p.getLocation(), Sound.NOTE_PIANO, 5, (float)Math.pow(2.0, ((double)12 - 12.0) / 12.0)); 
+                        if(i > 0)
+                            p.playSound(p.getLocation(), Sound.NOTE_PIANO, 5, (float) Math.pow(2.0, ((double) 7 - 12.0) / 12.0));
+                        else
+                            p.playSound(p.getLocation(), Sound.NOTE_PIANO, 5, (float) Math.pow(2.0, ((double) 12 - 12.0) / 12.0));
                     }
                 }
             }
@@ -123,7 +127,7 @@ public class SideBarDisplay {
         pointsboard = manager.getNewScoreboard();
         que.unregister();
         points.unregister();
-        que = queboard.registerNewObjective("§aGame in:§f "+waitTime, "dummy");
+        que = queboard.registerNewObjective("§aGame in:§f " + waitTime, "dummy");
         points = pointsboard.registerNewObjective("Points", "dummy");
 
         que.setDisplaySlot(DisplaySlot.SIDEBAR);
@@ -132,7 +136,7 @@ public class SideBarDisplay {
         addSlots(teams);
 
         if(gameTime > 0){
-            points.setDisplayName("§aTime left:§f "+gameTime);
+            points.setDisplayName("§aTime left:§f " + gameTime);
         }
     }
 

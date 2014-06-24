@@ -22,7 +22,7 @@ import co.justgame.simpleArena.Players.PlayerFiles;
 import co.justgame.simpleArena.Teams.Team;
 import co.justgame.simpleArena.Teams.Color.Color;
 
-import com.spiny.pvpchoice.main.PVPChoiceAPI;
+import com.spiny.pvpchoice.main.PVPChoice;
 
 public class ArenaUtils {
 
@@ -31,7 +31,7 @@ public class ArenaUtils {
         p.setFoodLevel(20);
         p.setSaturation(20);
         p.setGameMode(GameMode.SURVIVAL);
-        if(SimpleArena.usePvP()) PVPChoiceAPI.setPVPEnabled(p, false);
+        if(SimpleArena.usePvP()) PVPChoice.setPVPEnabled(p, false);
         if(PlayerFiles.hasFile(p) && reloadInven) PlayerFiles.loadPlayerInven(p);
 
         for(PotionEffect effect: p.getActivePotionEffects()){
@@ -54,7 +54,7 @@ public class ArenaUtils {
         p.setFoodLevel(20);
         p.setSaturation(20);
         p.setGameMode(a.getGamemode());
-        if(SimpleArena.usePvP()) PVPChoiceAPI.setPVPEnabled(p, true);
+        if(SimpleArena.usePvP()) PVPChoice.setPVPEnabled(p, true);
 
         if(SimpleArena.useVanish)
             try{
@@ -70,7 +70,7 @@ public class ArenaUtils {
         p.getInventory().setArmorContents(new ItemStack[4]);
         if(a.giveWoolHelmets())
             p.getInventory().setHelmet(new ItemStack(Material.STAINED_GLASS, 1, (short) Color.getWoolColor(t.getColor())));
-        
+
         Class clazz = t.getDefualtClass();
         if(clazz != null){
             clazz.setPlayerClass(p);

@@ -67,26 +67,26 @@ public class PlayerFiles {
     private synchronized static void setPlayer(final Player p, final Double health, final int hunger, final int levels,
             final Double X, final Double Y, final Double Z, final String world, final Collection<PotionEffect> potionEffects,
             final ItemStack[] inven, final ItemStack[] armor){
-        
-                if(health < 21 && health > -1)
-                    p.setHealth(health);
-                else
-                    p.setHealth(20.0);
-                
-                p.setFoodLevel(hunger);
-                p.setLevel(levels);
-                Location loc = new Location(Bukkit.getWorld(world), X, Y, Z);
-                p.teleport(loc, TeleportCause.PLUGIN);
-                for(PotionEffect effect: p.getActivePotionEffects()){
-                    p.removePotionEffect(effect.getType());
-                }
-                for(PotionEffect pe: potionEffects){
-                    p.addPotionEffect(pe);
-                }
-                p.getInventory().setContents(inven);
-                p.getInventory().setArmorContents(armor);
 
-                p.updateInventory();
+        if(health < 21 && health > -1)
+            p.setHealth(health);
+        else
+            p.setHealth(20.0);
+
+        p.setFoodLevel(hunger);
+        p.setLevel(levels);
+        Location loc = new Location(Bukkit.getWorld(world), X, Y, Z);
+        p.teleport(loc, TeleportCause.PLUGIN);
+        for(PotionEffect effect: p.getActivePotionEffects()){
+            p.removePotionEffect(effect.getType());
+        }
+        for(PotionEffect pe: potionEffects){
+            p.addPotionEffect(pe);
+        }
+        p.getInventory().setContents(inven);
+        p.getInventory().setArmorContents(armor);
+
+        p.updateInventory();
     }
 
     @SuppressWarnings({ "unchecked", "unused" })
@@ -152,8 +152,8 @@ public class PlayerFiles {
 
                     playersFile.delete();
 
+                    Bukkit.getScheduler().scheduleSyncDelayedTask(SimpleArena.getInstance(), new Runnable(){
 
-                    Bukkit.getScheduler().scheduleSyncDelayedTask( SimpleArena.getInstance(), new Runnable(){
                         public void run(){
                             setPlayer(p, config.getDouble("health"), config.getInt("hunger"), config.getInt("levels"), config.getDouble("location.x"), config
                                     .getDouble("location.y"), config.getDouble("location.z"), config.getString("location.world"), potionEffects, inven, armor);

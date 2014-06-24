@@ -95,7 +95,7 @@ public class ClassFiles {
                     }
                     int lookup = 0;
                     for(int i = 0; i < 3; i++){
-                        if(items.size() >= i+1 && isArmor(items.get(lookup))){
+                        if(items.size() >= i + 1 && isArmor(items.get(lookup))){
                             armor.add(items.get(lookup));
                             items.remove(lookup);
                         }else{
@@ -115,7 +115,7 @@ public class ClassFiles {
                             strength = config.getInt(message);
                         }else if(message.endsWith(".length")){
                             length = config.getInt(message);
-                            effects.add(new PotionEffect(type, length*20, strength));
+                            effects.add(new PotionEffect(type, length * 20, strength));
                             type = PotionEffectType.HEAL;
                             length = 0;
                             strength = 0;
@@ -141,7 +141,7 @@ public class ClassFiles {
                 || m.equals(Material.DIAMOND_CHESTPLATE) || m.equals(Material.LEATHER_LEGGINGS)
                 || m.equals(Material.GOLD_LEGGINGS) || m.equals(Material.IRON_LEGGINGS) || m.equals(Material.DIAMOND_LEGGINGS)
                 || m.equals(Material.LEATHER_BOOTS) || m.equals(Material.GOLD_BOOTS) || m.equals(Material.IRON_BOOTS)
-                || m.equals(Material.DIAMOND_BOOTS) || m.equals(Material.CHAINMAIL_BOOTS) || m.equals(Material.CHAINMAIL_LEGGINGS)
-                || m.equals(Material.CHAINMAIL_CHESTPLATE);
+                || m.equals(Material.DIAMOND_BOOTS) || m.equals(Material.CHAINMAIL_BOOTS)
+                || m.equals(Material.CHAINMAIL_LEGGINGS) || m.equals(Material.CHAINMAIL_CHESTPLATE);
     }
 }

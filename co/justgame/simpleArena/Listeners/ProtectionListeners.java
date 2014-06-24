@@ -38,7 +38,7 @@ public class ProtectionListeners implements Listener {
             e.setCancelled(true);
         }
     }
-    
+
     @EventHandler(priority = EventPriority.HIGH)
     public synchronized void onCommand(PlayerCommandPreprocessEvent e){
         Player p = e.getPlayer();
@@ -51,7 +51,7 @@ public class ProtectionListeners implements Listener {
             }
         }
     }
-    
+
     @EventHandler(priority = EventPriority.LOWEST)
     public synchronized void tntPrime(BlockPlaceEvent e){
         Player p = e.getPlayer();
@@ -110,6 +110,7 @@ public class ProtectionListeners implements Listener {
 
         if(PlayerFiles.hasFile(p)){
             Bukkit.getScheduler().scheduleSyncDelayedTask(SimpleArena.getInstance(), new Runnable(){
+
                 public void run(){
                     PlayerFiles.loadPlayerInven(p);
                 }

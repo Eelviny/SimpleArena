@@ -55,7 +55,7 @@ public class DeathMessages {
         return Messages.get("simplearena.death.default").replace("%killer%", killer.getName())
                 .replace("%killed%", killed.getName());
     }
-    
+
     public static synchronized String getDeathMessage(Player killed, Entity killer, EntityDamageByEntityEvent e){
         DamageCause dc = e.getCause();
         if(killer instanceof Zombie){

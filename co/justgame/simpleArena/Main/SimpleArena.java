@@ -109,13 +109,13 @@ public class SimpleArena extends JavaPlugin {
         if(cmd.getLabel().equalsIgnoreCase("arena")){
             if(args.length > 0){
                 String command = args[0];
-                
+
                 if(command.equalsIgnoreCase("list")){
                     if(sender.hasPermission("simplearena.command.list")){
                         if(args.length == 1){
                             StringBuilder message = new StringBuilder("§2Arenas:/n");
                             for(Arena a: arenas){
-                                message.append("§8   -"+StringUtils.capitalize(a.getName())+"/n");
+                                message.append("§8   -" + StringUtils.capitalize(a.getName()) + "/n");
                             }
                             message.append("/n§3For more information on a specific arena use /arena list <Arena> or /arena info <Arena>!");
                             sendMultilineMessage(sender, message.toString());
@@ -123,14 +123,14 @@ public class SimpleArena extends JavaPlugin {
                             String a = StringUtils.join(args, " ", 1, args.length);
                             Arena arena = SimpleArena.getArena(a);
                             if(arena != null){
-                                StringBuilder message = new StringBuilder("§2"+StringUtils.capitalize(arena.getName())+":/n");
-                                
+                                StringBuilder message = new StringBuilder("§2" + StringUtils.capitalize(arena.getName()) + ":/n");
+
                                 String players = arena.getPlayersInList();
                                 players = players.isEmpty() ? "§cNone" : players;
-                                message.append("§8   Players in Arena:§3 "+players.trim()+"/n");
-                                
+                                message.append("§8   Players in Arena:§3 " + players.trim() + "/n");
+
                                 String status = arena.inProgress() ? "Game" : "Queue";
-                                message.append("§8   Status:§3 "+status+"/n");
+                                message.append("§8   Status:§3 " + status + "/n");
                                 sendMultilineMessage(sender, message.toString());
                             }else{
                                 sender.sendMessage(Messages.get("simplearena.command.unknown").replace("%arena%", StringUtils
@@ -143,14 +143,14 @@ public class SimpleArena extends JavaPlugin {
                 }else if(command.equalsIgnoreCase("info")){
                     if(args.length > 1){
                         if(sender.hasPermission("simplearena.command.list")){
-                                String a = StringUtils.join(args, " ", 1, args.length);
-                                Arena arena = SimpleArena.getArena(a);
-                                if(arena != null){
-                                    sendMultilineMessage(sender, arena.toString());
-                                }else{
-                                   sender.sendMessage(Messages.get("simplearena.command.unknown").replace("%arena%", StringUtils
-                                           .join(args, " ", 1, args.length)));
-                               }
+                            String a = StringUtils.join(args, " ", 1, args.length);
+                            Arena arena = SimpleArena.getArena(a);
+                            if(arena != null){
+                                sendMultilineMessage(sender, arena.toString());
+                            }else{
+                                sender.sendMessage(Messages.get("simplearena.command.unknown").replace("%arena%", StringUtils
+                                        .join(args, " ", 1, args.length)));
+                            }
                         }else{
                             sender.sendMessage(Messages.get("simplearena.command.noperms"));
                         }
@@ -410,6 +410,7 @@ public class SimpleArena extends JavaPlugin {
         }
         return null;
     }
+
     private void sendMultilineMessage(CommandSender sender, String message){
         if(sender != null && message != null){
             String[] s = message.split("/n");
